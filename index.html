@@ -43,7 +43,9 @@
 
       <!-- Account Overview (hidden until logged in) -->
       <section class="account-overview" hidden>
-        <h2>Welcome, <span id="user-name">User</span></h2>
+        <h2 class="welcome-message">
+          Welcome, <span id="user-name">User</span>
+        </h2>
 
         <!-- Large Account Balance Display -->
         <div class="balance-section">
@@ -58,12 +60,19 @@
           <ul id="transaction-list"></ul>
         </div>
 
+        <!-- Actions -->
+        <aside class="actions-section">
+          <button class="action-btn">Transfer Money</button>
+          <button class="action-btn">Request Loan</button>
+          <button class="action-btn">Close Account</button>
+        </aside>
+
         <!-- Summary Section -->
         <div class="summary-section">
           <h3>Financial Summary</h3>
-          <p>Total Deposits: R<span id="total-deposits">0.00</span></p>
-          <p>Total Withdrawals: R<span id="total-withdrawals">0.00</span></p>
-          <p>Interest Earned: R<span id="interest-earned">0.00</span></p>
+          <p>Total Deposits: <span id="total-deposits">0.00</span></p>
+          <p>Total Withdrawals: <span id="total-withdrawals">0.00</span></p>
+          <p>Interest Earned: <span id="interest-earned">0.00</span></p>
         </div>
         <button class="logout-btn">Logout</button>
       </section>

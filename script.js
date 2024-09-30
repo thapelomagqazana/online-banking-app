@@ -9,6 +9,10 @@ const transactionList = document.body.querySelector("#transaction-list");
 const loginSection = document.body.querySelector(".login-container");
 const accountOverview = document.body.querySelector(".account-overview");
 
+const totalDepositsDisplay = document.body.querySelector("#total-deposits");
+const totalWithdrawalsDisplay =
+  document.body.querySelector("#total-withdrawals");
+
 // Dummy data
 const users = [
   {
@@ -53,6 +57,7 @@ loginBtn.addEventListener("click", (e) => {
     userNameDisplay.textContent = currentUser.username;
     balanceDisplay.textContent = currentUser.balance.toFixed(2);
     renderTransactions(currentUser.transactions);
+    calculateSummaryStats(currentUser.transactions);
   } else {
     alert("Invalid username or PIN");
   }
@@ -73,10 +78,23 @@ function renderTransactions(transactions) {
     }
 
     li.innerHTML = `Transaction ${index + 1}: ${
-      transaction.amount > 0 ? "+" : ""
-    }${transaction.amount} 
+      transaction.amount.toFixed(2) > 0 ? "+" : ""
+    }${transaction.amount.toFixed(2)} 
     <span class="transaction-date">(${transaction.date})</span>`;
 
     transactionList.appendChild(li);
   });
+}
+
+function calculateSummaryStats(transactions) {
+  let totalDeposits = 0;
+  let totalWithdrawals = 0;
+
+  transactions.forEach((transaction) => {
+    if (transaction.amount > 0) totalDeposits += transaction.amount;
+    else totalWithdrawals += transaction.amount;
+  });
+
+  totalDepositsDisplay.textContent = `R ${totalDeposits.toFixed(2)}`;
+  totalWithdrawalsDisplay.textContent = `R ${totalWithdrawals.toFixed(2)}`;
 }

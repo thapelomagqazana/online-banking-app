@@ -11,7 +11,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   color: #333;
 }
 
@@ -71,8 +70,7 @@ input:focus {
   transition: background-color 0.3s ease;
 }
 
-.login-button:hover,
-.logout-btn:hover {
+.login-button:hover {
   background-color: #004b56; /* Darker green on hover */
 }
 
@@ -83,20 +81,28 @@ body {
 
 /* Account Overview Container */
 .account-overview {
-  text-align: left;
   background-color: #fff;
-  padding: 40px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 600px;
-  margin-top: 20px;
-  width: 100%;
+  max-width: 900px;
+  width: 90%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
 }
 
-h2 {
+.welcome-message {
   font-size: 1.8rem;
   margin-bottom: 20px;
   color: #00274d;
+  text-align: center;
+  font-weight: 600;
+}
+
+.welcome-message #user-name {
+  color: #005f6b;
+  font-weight: 700;
 }
 
 /* Large Balance Display */
@@ -104,56 +110,109 @@ h2 {
   background-color: #f9f9f9;
   padding: 20px;
   margin-bottom: 20px;
-  border-radius: 10px;
+  border-radius: 8px;
   text-align: center;
+  grid-column: 1 / 3;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
 .balance {
   font-size: 2.2rem;
   color: #005f6b;
+  margin-bottom: 10px;
 }
 
 /* Transaction List */
 #transactions {
   margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
 .transaction {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1rem;
 }
 
 .deposit {
   color: #4caf50; /* Green for deposits */
+  font-weight: 500;
 }
 
 .withdrawal {
   color: #f44336; /* Red for withdrawals */
+  font-weight: 500;
 }
 
 .transaction-date {
   font-size: 0.85rem;
-  color: #555;
+  color: #888;
+}
+
+/* Actions Section */
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.action-btn,
+.logout-btn {
+  padding: 12px 20px;
+  background-color: #005f6b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.action-btn:hover,
+.logout-btn:hover {
+  background-color: #004b56; /* Darker green on hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.action-btn:active,
+.logout-btn:active {
+  transform: translateY(0); /* Return to original position when clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Slightly smaller shadow on click */
 }
 
 /* Summary Section */
 .summary-section {
+  grid-column: 1 /3;
   margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.summary-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #00274d;
+  text-align: center;
 }
 
 .summary-section p {
   margin-bottom: 10px;
-}
-
-.logout-btn {
-  display: block;
-  padding: 10px 20px;
-  background-color: #005f6b; /* Muted green */
-  color: white;
-  text-align: center;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  font-size: 1.2rem;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
 }
