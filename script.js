@@ -13,6 +13,14 @@ const totalDepositsDisplay = document.body.querySelector("#total-deposits");
 const totalWithdrawalsDisplay =
   document.body.querySelector("#total-withdrawals");
 
+const transferModal = document.body.querySelector("#transfer-modal");
+const transferForm = document.body.querySelector("#transfer-form");
+const transferBtn = document.body.querySelector(".transfer-btn");
+const closeModalBtn = document.body.querySelector(".close-btn");
+const recipientUsernameInput = document.body.querySelector("#recipient");
+const amountInput = document.body.querySelector("#amount");
+const transferSubmitBtn = document.body.querySelector(".transfer-submit");
+
 // Dummy data
 const users = [
   {
@@ -60,6 +68,71 @@ loginBtn.addEventListener("click", (e) => {
     calculateSummaryStats(currentUser.transactions);
   } else {
     alert("Invalid username or PIN");
+  }
+});
+
+// Handle money transfer submission
+transferForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const recipientUsername = recipientUsernameInput.value;
+  const amount = Number(amountInput.value);
+
+  if (!amount) {
+    alert(`Invalid amount: ${amountInput.value}`);
+    return;
+  }
+
+  // Find recipient
+  const recipient = users.find((user) => user.username === recipientUsername);
+
+  if (!recipient) {
+    alert(`The user (${recipientUsername}) does not exist`);
+    return;
+  }
+
+  if (currentUser.balance < amount) {
+    alert("You have insufficient funds.");
+    return;
+  }
+
+  const transactionDate = new Date().toLocaleDateString();
+
+  // Deduct from sender's balance
+  currentUser.balance -= amount;
+  currentUser.transactions.push({ amount: -amount, date: transactionDate });
+  balanceDisplay.textContent = currentUser.balance.toFixed(2);
+  renderTransactions(currentUser.transactions);
+  calculateSummaryStats(currentUser.transactions);
+
+  // Add to recipient's balance and add transaction
+  recipient.balance += amount;
+  recipient.transactions.push({ amount, date: transactionDate });
+
+  alert(
+    `Transfer successful: R${amount.toFixed(2)} sent to ${recipient.username}`
+  );
+
+  // Clear form inputs
+  recipientUsernameInput.value = "";
+  amountInput.value = "";
+  transferModal.style.display = "none"; // Close modal
+});
+
+// Show modal when "Transfer Money" Btn is clicked
+transferBtn.addEventListener("click", () => {
+  transferModal.style.display = "flex";
+});
+
+// Close modal when close button is clicked
+closeModalBtn.addEventListener("click", () => {
+  transferModal.style.display = "none";
+});
+
+// Close modal when user clicks outside modal content
+window.addEventListener("click", (e) => {
+  if (e.target === transferModal) {
+    transferModal.style.display = "none";
   }
 });
 

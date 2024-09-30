@@ -62,10 +62,28 @@
 
         <!-- Actions -->
         <aside class="actions-section">
-          <button class="action-btn">Transfer Money</button>
+          <button class="action-btn transfer-btn">Transfer Money</button>
           <button class="action-btn">Request Loan</button>
           <button class="action-btn">Close Account</button>
         </aside>
+
+        <!-- Modal for Transfer Money (hidden until Transfer Money button is clicked) -->
+        <div class="modal" id="transfer-modal" hidden>
+          <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Transfer Money</h3>
+
+            <form id="transfer-form">
+              <label for="recipient">Recipient's Username:</label>
+              <input type="text" id="recipient" required />
+
+              <label for="amount">Transfer Amount:</label>
+              <input type="text" id="amount" required />
+
+              <button type="submit" class="transfer-submit">Submit</button>
+            </form>
+          </div>
+        </div>
 
         <!-- Summary Section -->
         <div class="summary-section">
