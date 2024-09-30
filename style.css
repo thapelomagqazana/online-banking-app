@@ -1,0 +1,159 @@
+/* General reset and styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #f0f0f0, #ffffff); /* Subtle gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+/* Login Container */
+.login-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  text-align: center;
+  width: 350px;
+}
+
+/* Heading */
+h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00274d; /* Dark blue accent */
+  margin-bottom: 30px;
+}
+
+/* Form Styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+/* Input Fields */
+input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: #333;
+  width: 100%;
+}
+
+/* Input Field Focus */
+input:focus {
+  border-color: #005f6b; /* Muted green */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 95, 107, 0.2); /* Subtle focus effect */
+}
+
+/* Button Styling */
+.login-button {
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: #005f6b; /* Muted green */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover,
+.logout-btn:hover {
+  background-color: #004b56; /* Darker green on hover */
+}
+
+/* Subtle gradient for background */
+body {
+  background: linear-gradient(to bottom, #fafafa, #eaeaea);
+}
+
+/* Account Overview Container */
+.account-overview {
+  text-align: left;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 600px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #00274d;
+}
+
+/* Large Balance Display */
+.balance-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.balance {
+  font-size: 2.2rem;
+  color: #005f6b;
+}
+
+/* Transaction List */
+#transactions {
+  margin-bottom: 20px;
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.deposit {
+  color: #4caf50; /* Green for deposits */
+}
+
+.withdrawal {
+  color: #f44336; /* Red for withdrawals */
+}
+
+.transaction-date {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-top: 20px;
+}
+
+.summary-section p {
+  margin-bottom: 10px;
+}
+
+.logout-btn {
+  display: block;
+  padding: 10px 20px;
+  background-color: #005f6b; /* Muted green */
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

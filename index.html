@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[DEMO] : Bankist</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <header hidden>
+      <nav>
+        <h1>Bankist</h1>
+      </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+      <!-- Login Section -->
+      <section class="login-container">
+        <h1>Bankist</h1>
+
+        <form class="login-form">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            required
+          />
+
+          <label for="pin">Pin Code</label>
+          <input
+            type="password"
+            id="pin"
+            placeholder="Enter your pin"
+            required
+          />
+
+          <button type="submit" class="login-button">Login</button>
+        </form>
+      </section>
+
+      <!-- Account Overview (hidden until logged in) -->
+      <section class="account-overview" hidden>
+        <h2>Welcome, <span id="user-name">User</span></h2>
+
+        <!-- Large Account Balance Display -->
+        <div class="balance-section">
+          <h1 class="balance">
+            Current Balance: R<span id="balance">0.00</span>
+          </h1>
+        </div>
+
+        <!-- Transactions List -->
+        <div id="transactions">
+          <h3>Your Transactions</h3>
+          <ul id="transaction-list"></ul>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+          <h3>Financial Summary</h3>
+          <p>Total Deposits: R<span id="total-deposits">0.00</span></p>
+          <p>Total Withdrawals: R<span id="total-withdrawals">0.00</span></p>
+          <p>Interest Earned: R<span id="interest-earned">0.00</span></p>
+        </div>
+        <button class="logout-btn">Logout</button>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
