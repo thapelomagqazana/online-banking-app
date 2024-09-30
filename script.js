@@ -1,5 +1,6 @@
 // Select elements
 const loginBtn = document.body.querySelector(".login-button");
+const logoutBtn = document.body.querySelector(".logout-btn");
 const usernameInput = document.body.querySelector("#username");
 const pinInput = document.body.querySelector("#pin");
 
@@ -48,6 +49,39 @@ const users = [
 
 let currentUser;
 
+// Utility functions
+const toggleVisibility = (element, isVisible) => {
+  if (isVisible) element.classList.remove("hidden");
+  else element.classList.add("hidden");
+};
+
+const showModal = (modal) => (modal.style.display = "flex");
+const closeModal = (modal) => (modal.style.display = "none");
+
+// Check for localStorage on Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  const storedUser = localStorage.getItem("loggedInUser");
+
+  if (storedUser) {
+    // Parse the stored user data from localStorage
+    currentUser = JSON.parse(storedUser);
+    updateUIAfterLogin();
+  } else {
+    toggleVisibility(loginSection, true);
+    toggleVisibility(accountOverview, false);
+  }
+});
+
+// Update UI after login
+function updateUIAfterLogin() {
+  toggleVisibility(loginSection, false);
+  toggleVisibility(accountOverview, true);
+  userNameDisplay.textContent = currentUser.username;
+  balanceDisplay.textContent = currentUser.balance.toFixed(2);
+  renderTransactions(currentUser.transactions);
+  calculateSummaryStats(currentUser.transactions);
+}
+
 // Handle login
 loginBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -60,15 +94,26 @@ loginBtn.addEventListener("click", (e) => {
   );
 
   if (currentUser) {
-    loginSection.hidden = true;
-    accountOverview.hidden = false;
-    userNameDisplay.textContent = currentUser.username;
-    balanceDisplay.textContent = currentUser.balance.toFixed(2);
-    renderTransactions(currentUser.transactions);
-    calculateSummaryStats(currentUser.transactions);
+    updateUIAfterLogin();
+    // Store user data in localStorage to persist across reloads
+    localStorage.setItem("loggedInUser", JSON.stringify(currentUser));
   } else {
     alert("Invalid username or PIN");
   }
+});
+
+// Handle LogOut Btn
+logoutBtn.addEventListener("click", () => {
+  // Clear localStorage
+  localStorage.removeItem("loggedInUser");
+
+  // Reset the UI by toggling the hidden class
+  toggleVisibility(loginSection, true);
+  toggleVisibility(accountOverview, false);
+
+  // Clear input fields
+  usernameInput.value = "";
+  pinInput.value = "";
 });
 
 // Handle money transfer submission
@@ -78,7 +123,7 @@ transferForm.addEventListener("submit", (e) => {
   const recipientUsername = recipientUsernameInput.value;
   const amount = Number(amountInput.value);
 
-  if (!amount) {
+  if (!amount || amount <= 0) {
     alert(`Invalid amount: ${amountInput.value}`);
     return;
   }
@@ -101,9 +146,7 @@ transferForm.addEventListener("submit", (e) => {
   // Deduct from sender's balance
   currentUser.balance -= amount;
   currentUser.transactions.push({ amount: -amount, date: transactionDate });
-  balanceDisplay.textContent = currentUser.balance.toFixed(2);
-  renderTransactions(currentUser.transactions);
-  calculateSummaryStats(currentUser.transactions);
+  updateUIAfterLogin();
 
   // Add to recipient's balance and add transaction
   recipient.balance += amount;
@@ -116,24 +159,18 @@ transferForm.addEventListener("submit", (e) => {
   // Clear form inputs
   recipientUsernameInput.value = "";
   amountInput.value = "";
-  transferModal.style.display = "none"; // Close modal
+  closeModal(transferModal);
 });
 
 // Show modal when "Transfer Money" Btn is clicked
-transferBtn.addEventListener("click", () => {
-  transferModal.style.display = "flex";
-});
+transferBtn.addEventListener("click", () => showModal(transferModal));
 
 // Close modal when close button is clicked
-closeModalBtn.addEventListener("click", () => {
-  transferModal.style.display = "none";
-});
+closeModalBtn.addEventListener("click", () => closeModal(transferModal));
 
 // Close modal when user clicks outside modal content
 window.addEventListener("click", (e) => {
-  if (e.target === transferModal) {
-    transferModal.style.display = "none";
-  }
+  if (e.target === transferModal) closeModal(transferModal);
 });
 
 // Render transactions
@@ -160,14 +197,16 @@ function renderTransactions(transactions) {
 }
 
 function calculateSummaryStats(transactions) {
-  let totalDeposits = 0;
-  let totalWithdrawals = 0;
+  const totalDeposits = transactions
+    .filter((transaction) => transaction.amount > 0)
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
 
-  transactions.forEach((transaction) => {
-    if (transaction.amount > 0) totalDeposits += transaction.amount;
-    else totalWithdrawals += transaction.amount;
-  });
+  const totalWithdrawals = transactions
+    .filter((transaction) => transaction.amount < 0)
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
 
   totalDepositsDisplay.textContent = `R ${totalDeposits.toFixed(2)}`;
-  totalWithdrawalsDisplay.textContent = `R ${totalWithdrawals.toFixed(2)}`;
+  totalWithdrawalsDisplay.textContent = `R ${Math.abs(totalWithdrawals).toFixed(
+    2
+  )}`;
 }
