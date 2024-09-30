@@ -63,7 +63,7 @@
         <!-- Actions -->
         <aside class="actions-section">
           <button class="action-btn transfer-btn">Transfer Money</button>
-          <button class="action-btn">Request Loan</button>
+          <button class="action-btn request-loan">Request Loan</button>
           <button class="action-btn">Close Account</button>
         </aside>
 
@@ -81,6 +81,21 @@
               <input type="text" id="amount" required />
 
               <button type="submit" class="transfer-submit">Submit</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modal for Request Loan (hidden until Request Loan button is clicked) -->
+        <div class="modal" id="request-loan-modal" hidden>
+          <div class="modal-content">
+            <span class="loan-close">&times;</span>
+            <h3>Request Loan</h3>
+
+            <form id="request-loan-form">
+              <label for="amount">Loan Amount:</label>
+              <input type="text" id="loan-amount" required />
+
+              <button type="submit" class="loan-submit">Submit</button>
             </form>
           </div>
         </div>

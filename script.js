@@ -17,10 +17,16 @@ const totalWithdrawalsDisplay =
 const transferModal = document.body.querySelector("#transfer-modal");
 const transferForm = document.body.querySelector("#transfer-form");
 const transferBtn = document.body.querySelector(".transfer-btn");
+const requestBtn = document.body.querySelector(".request-loan");
+const requestLoanModal = document.body.querySelector("#request-loan-modal");
+const requestLoanForm = document.body.querySelector("#request-loan-form");
 const closeModalBtn = document.body.querySelector(".close-btn");
+const loanCloseBtn = document.body.querySelector(".loan-close");
 const recipientUsernameInput = document.body.querySelector("#recipient");
 const amountInput = document.body.querySelector("#amount");
+const loanAmountInput = document.body.querySelector("#loan-amount");
 const transferSubmitBtn = document.body.querySelector(".transfer-submit");
+const loanSubmitBtn = document.body.querySelector(".loan-submit");
 
 // Dummy data
 const users = [
@@ -29,10 +35,10 @@ const users = [
     pin: "1111",
     balance: 1500,
     transactions: [
-      { amount: 500, date: "2024-09-01" },
-      { amount: -200, date: "2024-09-02" },
-      { amount: 100, date: "2024-09-03" },
-      { amount: -50, date: "2024-09-04" },
+      { amount: 500, date: "2024/09/01" },
+      { amount: -200, date: "2024/09/02" },
+      { amount: 100, date: "2024/09/03" },
+      { amount: -50, date: "2024/09/04" },
     ],
   },
   {
@@ -40,9 +46,9 @@ const users = [
     pin: "2222",
     balance: 3000,
     transactions: [
-      { amount: 1000, date: "2024-09-01" },
-      { amount: -500, date: "2024-09-02" },
-      { amount: 200, date: "2024-09-03" },
+      { amount: 1000, date: "2024/09/01" },
+      { amount: -500, date: "2024/09/02" },
+      { amount: 200, date: "2024/09/03" },
     ],
   },
 ];
@@ -137,7 +143,7 @@ transferForm.addEventListener("submit", (e) => {
   }
 
   if (currentUser.balance < amount) {
-    alert("You have insufficient funds.");
+    alert("You have an insufficient balance.");
     return;
   }
 
@@ -162,15 +168,48 @@ transferForm.addEventListener("submit", (e) => {
   closeModal(transferModal);
 });
 
+// Handle request loan submission
+requestLoanForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const loanAmount = Number(loanAmountInput.value);
+
+  if (!loanAmount || loanAmount <= 0) {
+    alert(`Invalid loan amount: ${loanAmountInput.value}`);
+    return;
+  }
+
+  currentUser.balance += loanAmount;
+  currentUser.transactions.push({
+    amount: loanAmount,
+    date: new Date().toLocaleDateString(),
+  });
+
+  updateUIAfterLogin();
+  alert(
+    `Loan Request successful: R${loanAmount.toFixed(2)} sent to ${
+      currentUser.username
+    }`
+  );
+
+  loanAmountInput.value = "";
+  closeModal(requestLoanModal);
+});
+
 // Show modal when "Transfer Money" Btn is clicked
 transferBtn.addEventListener("click", () => showModal(transferModal));
+
+requestBtn.addEventListener("click", () => showModal(requestLoanModal));
 
 // Close modal when close button is clicked
 closeModalBtn.addEventListener("click", () => closeModal(transferModal));
 
+loanCloseBtn.addEventListener("click", () => closeModal(requestLoanModal));
+
 // Close modal when user clicks outside modal content
 window.addEventListener("click", (e) => {
   if (e.target === transferModal) closeModal(transferModal);
+  else if (e.target === requestLoanModal) closeModal(requestLoanModal);
 });
 
 // Render transactions
