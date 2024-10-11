@@ -12,7 +12,7 @@
   </head>
   <body>
     <!-- Navigation Bar -->
-    <header>
+    <header id="navbar" hidden>
       <nav class="navbar sticky">
         <div class="navbar-logo">
           <img src="" alt="Imali X's logo" />
@@ -37,22 +37,69 @@
       </nav>
     </header>
 
-    <!-- Main Content for demonstration purposes -->
     <main>
-      <section id="breadcrumb">
-        <p>Home > Accounts</p>
+      <!-- Login Section -->
+      <section class="login-container" id="login-section">
+        <div class="login-card">
+          <h2 class="login-heading">Login to Imali X</h2>
+
+          <form id="login-form">
+            <!-- Username -->
+            <div class="input-group">
+              <input
+                type="text"
+                id="username"
+                class="login-input"
+                required
+                autofocus
+              />
+              <label for="username" class="floating-label">Username</label>
+              <small class="error-message" id="username-error"></small>
+            </div>
+
+            <!-- Pin Code -->
+            <div class="input-group">
+              <input
+                type="password"
+                id="pin"
+                class="login-input"
+                placeholder="Enter your pin"
+                required
+              />
+              <label for="pin" class="floating-label">Pin Code</label>
+              <span class="toggle-visibility" id="toggle-pin">Show</span>
+              <small class="error-message" id="pin-error"></small>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="remember-me">
+              <input type="checkbox" id="remember-me" />
+              <label for="remember-me">Remember Me</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-button">Login</button>
+          </form>
+        </div>
       </section>
-      <section id="accounts">
-        <h2>Accounts Section</h2>
-        <p>Details about the user's accounts go here.</p>
-      </section>
-      <section id="loans">
-        <h2>Loans Section</h2>
-        <p>Details about loans go here.</p>
-      </section>
-      <section id="support">
-        <h2>Support Section</h2>
-        <p>Details about support go here.</p>
+
+      <!-- Homepage Components (Initially Hidden) -->
+      <section id="homepage" hidden>
+        <section id="breadcrumb">
+          <p>Home > Accounts</p>
+        </section>
+        <section id="accounts">
+          <h2>Accounts Section</h2>
+          <p>Details about the user's accounts go here.</p>
+        </section>
+        <section id="loans">
+          <h2>Loans Section</h2>
+          <p>Details about loans go here.</p>
+        </section>
+        <section id="support">
+          <h2>Support Section</h2>
+          <p>Details about support go here.</p>
+        </section>
       </section>
     </main>
 

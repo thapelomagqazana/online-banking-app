@@ -6,22 +6,32 @@
   scroll-behavior: smooth;
 }
 
+:root {
+  --primary-color: #004080;
+  --primary-color-darker: #003366;
+  --secondary-color: #ffcc00;
+  --secondary-color-accent: #ffdc5e;
+  --background-color: #f4f7f9;
+  --text-color: #333;
+  --dark-mode-background: #181818;
+  --dark-mode-text: #e0e0e0;
+}
+
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #f4f7f9;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
   line-height: 1.6;
 }
 
 /* Headings */
 h1,
 h2,
-h3,
-.navbar-logo h1 {
+h3 {
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #004080;
+  color: var(--primary-color);
 }
 
 p,
@@ -36,7 +46,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #004080;
+  background-color: var(--primary-color);
   color: white;
   padding: 1rem 2rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -46,7 +56,7 @@ button {
 .navbar-logo {
   display: flex;
   align-items: center;
-  background-color: #ddd;
+  background-color: var(--background-color);
   padding: 0.5rem;
   border-radius: 5px;
 }
@@ -78,11 +88,11 @@ button {
 }
 
 .navbar-links a:hover {
-  color: #ffcc00;
+  color: var(--secondary-color);
 }
 
 .nav-item.active a {
-  color: #ffcc00;
+  color: var(--secondary-color);
 }
 
 .nav-item.active a::after {
@@ -92,7 +102,7 @@ button {
   right: 0;
   bottom: -5px;
   height: 3px;
-  background-color: #ffcc00;
+  background-color: var(--secondary-color);
   transition: width 0.3s ease;
   width: 50%; /* Partial underline for active link */
 }
@@ -105,7 +115,7 @@ button {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: #003366;
+  background-color: var(--primary-color);
   z-index: 1000;
 }
 
@@ -115,10 +125,10 @@ button {
 }
 
 .theme-toggle {
-  background-color: #ffcc00;
+  background-color: var(--secondary-color);
   border: none;
   padding: 0.5rem 1.2rem;
-  color: #004080;
+  color: var(--primary-color);
   font-weight: bold;
   cursor: pointer;
   border-radius: 20px;
@@ -126,37 +136,38 @@ button {
 }
 
 .theme-toggle:hover {
-  background-color: #ffdc5e;
+  background-color: var(--secondary-color-accent);
 }
 
 /* Dark mode */
 body.dark-mode {
-  background-color: #181818;
-  color: #e0e0e0;
+  background-color: var(--dark-mode-background);
+  color: var(--dark-mode-text);
 }
 
 body.dark-mode .navbar {
-  background-color: #2c2c2c;
+  background-color: var(--dark-mode-background);
+  border-bottom: 2px solid #f4f7f9;
 }
 
 body.dark-mode .navbar-links a {
-  color: #bbb;
+  color: var(--dark-mode-text);
 }
 
 body.dark-mode .navbar-links a:hover {
-  color: #ffcc00;
+  color: var(--secondary-color);
 }
 
 /* Breadcrumb trail */
 #breadcrumb {
   padding: 1rem;
-  background-color: #f8f9fa;
+  background-color: var(--dark-mode-text);
   margin: 1rem 0;
   border-radius: 8px;
 }
 
 #breadcrumb p {
-  color: #333;
+  color: var(--text-color);
   font-size: 0.9rem;
 }
 
@@ -171,8 +182,154 @@ section {
   margin: 2rem 0;
 }
 
+/* Login Section */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding: 1rem;
+}
+
+.login-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.login-heading {
+  font-size: 1.8rem;
+  margin-bottom: 2.5rem;
+  color: var(--primary-color);
+}
+
+/* Input Fields */
+.input-group {
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.1);
+}
+
+/* Floating Labels */
+.floating-label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #aaa;
+  transition: 0.3s ease;
+  pointer-events: none;
+}
+
+.login-input:focus + .floating-label,
+.login-input:not(:placeholder-shown) + .floating-label {
+  top: -10px;
+  font-size: 0.75rem;
+  color: var(--primary-color);
+  background-color: white;
+  padding: 0 5px;
+  margin-left: -5px;
+}
+
+/* Toggle Visibility */
+.toggle-visibility {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  user-select: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.toggle-visibility:hover {
+  opacity: 1;
+}
+
+/* Remember Me */
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.remember-me input {
+  margin-right: 0.5rem;
+}
+
+/* Submit Button */
+.login-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+}
+
+.login-button:hover {
+  background-color: var(--primary-color-darker);
+  transform: translateY(-2px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+/* Error Messages */
+.error-message {
+  font-size: 0.85rem;
+  color: red;
+  display: none;
+  text-align: left;
+  margin-top: 0.3rem;
+}
+
+/* Input Validation */
+.login-input.valid {
+  border-color: green;
+}
+
+.login-input.invalid {
+  border-color: red;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
+}
+
 /* Mobile: Small screens (max-width: 576px) */
-@media (max-width: 576px) {
+@media (max-width: 36rem) {
+  /* ~576px */
   .navbar {
     flex-direction: column;
     align-items: flex-start;
@@ -221,7 +378,8 @@ section {
 }
 
 /* Tablets: Medium screens (min-width: 576px and max-width: 991px) */
-@media (min-width: 576px) and (max-width: 991px) {
+@media (min-width: 36rem) and (max-width: 62rem) {
+  /* ~576px to 991px */
   /* Navbar styling */
   .navbar {
     padding: 1rem 1.5rem;
@@ -261,7 +419,8 @@ section {
 }
 
 /* Desktop: Large screens (min-width: 991px) */
-@media (min-width: 991px) {
+@media (min-width: 62rem) {
+  /* ~991px */
   /* Navbar styling */
   .navbar {
     padding: 1rem 2rem;
