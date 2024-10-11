@@ -3,111 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[DEMO] : Bankist</title>
+    <title>[DEMO] : Imali X</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <!-- Navigation Bar -->
-    <header hidden>
-      <nav>
-        <h1>Bankist</h1>
+    <header>
+      <nav class="navbar sticky">
+        <div class="navbar-logo">
+          <img src="" alt="Imali X's logo" />
+          <h1>Imali X</h1>
+        </div>
+
+        <ul class="navbar-links">
+          <li class="nav-item active">
+            <a href="#accounts">Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a href="#loans">Loans</a>
+          </li>
+          <li class="nav-item">
+            <a href="#support">Support</a>
+          </li>
+        </ul>
+
+        <div class="navbar-actions">
+          <button id="dark-mode-toggle" class="theme-toggle">Dark Mode</button>
+        </div>
       </nav>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content for demonstration purposes -->
     <main>
-      <!-- Login Section -->
-      <section class="login-container">
-        <h1>Bankist</h1>
-
-        <form class="login-form">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Enter your username"
-            required
-          />
-
-          <label for="pin">Pin Code</label>
-          <input
-            type="password"
-            id="pin"
-            placeholder="Enter your pin"
-            required
-          />
-
-          <button type="submit" class="login-button">Login</button>
-        </form>
+      <section id="breadcrumb">
+        <p>Home > Accounts</p>
       </section>
-
-      <!-- Account Overview (hidden until logged in) -->
-      <section class="account-overview">
-        <h2 class="welcome-message">
-          Welcome, <span id="user-name">User</span>
-        </h2>
-
-        <!-- Large Account Balance Display -->
-        <div class="balance-section">
-          <h1 class="balance">
-            Current Balance: R<span id="balance">0.00</span>
-          </h1>
-        </div>
-
-        <!-- Transactions List -->
-        <div id="transactions">
-          <h3>Your Transactions</h3>
-          <ul id="transaction-list"></ul>
-        </div>
-
-        <!-- Actions -->
-        <aside class="actions-section">
-          <button class="action-btn transfer-btn">Transfer Money</button>
-          <button class="action-btn request-loan">Request Loan</button>
-          <button class="action-btn">Close Account</button>
-        </aside>
-
-        <!-- Modal for Transfer Money (hidden until Transfer Money button is clicked) -->
-        <div class="modal" id="transfer-modal" hidden>
-          <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Transfer Money</h3>
-
-            <form id="transfer-form">
-              <label for="recipient">Recipient's Username:</label>
-              <input type="text" id="recipient" required />
-
-              <label for="amount">Transfer Amount:</label>
-              <input type="text" id="amount" required />
-
-              <button type="submit" class="transfer-submit">Submit</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Modal for Request Loan (hidden until Request Loan button is clicked) -->
-        <div class="modal" id="request-loan-modal" hidden>
-          <div class="modal-content">
-            <span class="loan-close">&times;</span>
-            <h3>Request Loan</h3>
-
-            <form id="request-loan-form">
-              <label for="amount">Loan Amount:</label>
-              <input type="text" id="loan-amount" required />
-
-              <button type="submit" class="loan-submit">Submit</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Summary Section -->
-        <div class="summary-section">
-          <h3>Financial Summary</h3>
-          <p>Total Deposits: <span id="total-deposits">0.00</span></p>
-          <p>Total Withdrawals: <span id="total-withdrawals">0.00</span></p>
-          <p>Interest Earned: <span id="interest-earned">0.00</span></p>
-        </div>
-        <button class="logout-btn">Logout</button>
+      <section id="accounts">
+        <h2>Accounts Section</h2>
+        <p>Details about the user's accounts go here.</p>
+      </section>
+      <section id="loans">
+        <h2>Loans Section</h2>
+        <p>Details about loans go here.</p>
+      </section>
+      <section id="support">
+        <h2>Support Section</h2>
+        <p>Details about support go here.</p>
       </section>
     </main>
 
