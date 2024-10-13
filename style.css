@@ -12,6 +12,7 @@
   --secondary-color: #ffcc00;
   --secondary-color-accent: #ffdc5e;
   --background-color: #f4f7f9;
+  --background-color-accent: #f8f9fa;
   --text-color: #333;
   --dark-mode-background: #181818;
   --dark-mode-text: #e0e0e0;
@@ -51,6 +52,8 @@ button {
   padding: 1rem 2rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  position: relative;
+  z-index: 1000;
 }
 
 .navbar-logo {
@@ -59,6 +62,7 @@ button {
   background-color: var(--background-color);
   padding: 0.5rem;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .navbar-logo img {
@@ -76,6 +80,7 @@ button {
   list-style: none;
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .navbar-links a {
@@ -119,20 +124,36 @@ button {
   z-index: 1000;
 }
 
-.navbar-actions {
-  display: flex;
-  align-items: center;
+.hamburger-icon {
+  font-size: 2rem;
+  display: none;
+  cursor: pointer;
+  color: white;
+  transition: color 0.3s ease;
 }
 
+.logout-button,
 .theme-toggle {
-  background-color: var(--secondary-color);
   border: none;
   padding: 0.5rem 1.2rem;
-  color: var(--primary-color);
   font-weight: bold;
   cursor: pointer;
   border-radius: 20px;
   transition: background-color 0.3s ease;
+}
+
+.theme-toggle {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: var(--primary-color);
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
 }
 
 .theme-toggle:hover {
@@ -327,27 +348,156 @@ section {
   box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
 }
 
+/* Account Overview Section */
+.account-overview {
+  padding: 2.5rem;
+  background-color: var(--background-color-accent);
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.greeting-message {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.balance-container {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.balance-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.currency-switcher {
+  margin-top: 1rem;
+}
+
+.currency-switcher label {
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+  color: #34495e;
+}
+
+#currency-select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #ecf0f1;
+  cursor: pointer;
+}
+
+#currency-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.balance-tooltip {
+  position: absolute;
+  bottom: -2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.balance-container:hover .balance-tooltip {
+  opacity: 1;
+}
+
+/* Transactions List */
+.transactions-container {
+  margin-top: 2.5rem;
+  text-align: left;
+}
+
+.transaction-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+.transaction-item:hover {
+  background-color: #f4f4f4;
+}
+
+.transaction-item p {
+  margin: 0;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.transaction-deposit {
+  color: #27ae60;
+}
+
+.transaction-withdrawal {
+  color: #e74c3c;
+}
+
 /* Mobile: Small screens (max-width: 576px) */
 @media (max-width: 36rem) {
   /* ~576px */
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
     padding: 1rem;
   }
 
   .navbar-links {
+    display: none; /* Hide links on small screens */
     flex-direction: column;
-    gap: 1rem;
+    background-color: #004080;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .navbar-links.active {
+    display: flex; /* Show links when active */
+  }
+
+  .hamburger-icon {
+    display: block; /* Show hamburger icon */
+  }
+
+  /* Navbar Actions inside collapsible menu */
+  .theme-toggle,
+  .logout-button {
     margin-top: 1rem;
-  }
-
-  .nav-item {
-    margin-bottom: 1rem;
-  }
-
-  .navbar-logo {
-    margin-bottom: 1rem;
+    padding: 0.75rem;
+    width: 100%; /* Full width inside the collapsible menu */
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #breadcrumb {
@@ -363,6 +513,7 @@ section {
   button {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
+    text-align: center;
   }
 
   h1,
@@ -375,6 +526,94 @@ section {
   a {
     font-size: 0.9rem;
   }
+
+  .login-container {
+    padding: 1rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+
+  .login-card {
+    max-width: 100%;
+    padding: 1.5rem;
+    border-radius: 10px;
+  }
+
+  .login-heading {
+    font-size: 1.5rem;
+  }
+
+  .login-input {
+    padding: 0.75rem;
+  }
+
+  .remember-me {
+    font-size: 0.85rem;
+  }
+
+  .floating-label {
+    font-size: 0.85rem;
+  }
+
+  .account-overview {
+    padding: 1.5rem;
+    margin: 1.5rem 1rem;
+  }
+
+  .greeting-message {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .balance-display {
+    font-size: 2rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .currency-switcher label {
+    font-size: 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  #currency-select {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  .transactions-container {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .balance-tooltip {
+    font-size: 0.8rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .transaction-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .transaction-item p {
+    margin-bottom: 0.5rem;
+  }
+
+  .transaction-amount {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
 }
 
 /* Tablets: Medium screens (min-width: 576px and max-width: 991px) */
@@ -385,12 +624,31 @@ section {
     padding: 1rem 1.5rem;
   }
 
+  .navbar-logo h1 {
+    font-size: 1.5rem;
+  }
+
   .navbar-links {
     gap: 1.5rem;
   }
 
+  .nav-item {
+    margin-bottom: 0;
+  }
+
+  .navbar-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
   .navbar-logo {
     padding: 0.5rem 0.8rem;
+  }
+
+  .theme-toggle,
+  .logout-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
   }
 
   #breadcrumb {
@@ -415,6 +673,68 @@ section {
   p,
   a {
     font-size: 1rem;
+  }
+
+  .login-container {
+    padding: 1.5rem;
+  }
+
+  .login-card {
+    max-width: 90%;
+  }
+
+  .login-heading {
+    font-size: 1.6rem;
+  }
+
+  .login-input {
+    padding: 0.8rem;
+  }
+
+  .login-button {
+    padding: 0.75rem 1.3rem;
+  }
+
+  .remember-me {
+    font-size: 0.9rem;
+  }
+
+  .floating-label {
+    font-size: 0.9rem;
+  }
+
+  .account-overview {
+    padding: 2rem;
+    margin: 2rem auto;
+  }
+
+  .greeting-message {
+    font-size: 1.8rem;
+  }
+
+  .balance-display {
+    font-size: 2.2rem;
+  }
+
+  .currency-switcher label {
+    font-size: 1rem;
+  }
+
+  #currency-select {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .balance-tooltip {
+    font-size: 0.85rem;
+  }
+
+  .transaction-item {
+    padding: 1.25rem;
+  }
+
+  .transaction-amount {
+    font-size: 1.1rem;
   }
 }
 
@@ -465,5 +785,68 @@ section {
   button {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
+  }
+
+  .login-container {
+    padding: 2rem;
+  }
+
+  .login-card {
+    max-width: 400px;
+  }
+
+  .login-heading {
+    font-size: 1.8rem;
+  }
+
+  .login-input {
+    padding: 0.85rem;
+  }
+
+  .login-button {
+    padding: 0.85rem 1.5rem;
+  }
+
+  .remember-me {
+    font-size: 0.9rem;
+  }
+
+  .floating-label {
+    font-size: 1rem;
+  }
+
+  .account-overview {
+    padding: 2.5rem;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+
+  .greeting-message {
+    font-size: 2rem;
+  }
+
+  .balance-display {
+    font-size: 2.5rem;
+  }
+
+  .currency-switcher label {
+    font-size: 1.1rem;
+  }
+
+  #currency-select {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .balance-tooltip {
+    font-size: 0.9rem;
+  }
+
+  .transaction-item {
+    padding: 1.25rem;
+  }
+
+  .transaction-amount {
+    font-size: 1.2rem;
   }
 }

@@ -19,7 +19,12 @@
           <h1>Imali X</h1>
         </div>
 
-        <ul class="navbar-links">
+        <!-- Hamburger Icon (Hidden on larger screens) -->
+        <div id="hamburger-icon" class="hamburger-icon" aria-label="Menu">
+          &#9776;
+        </div>
+
+        <ul class="navbar-links" id="navbar-links">
           <li class="nav-item active">
             <a href="#accounts">Accounts</a>
           </li>
@@ -29,11 +34,16 @@
           <li class="nav-item">
             <a href="#support">Support</a>
           </li>
+          <!-- Navbar Actions (inside the collapsible menu) -->
+          <li class="nav-item">
+            <button id="dark-mode-toggle" class="theme-toggle">
+              Dark Mode
+            </button>
+          </li>
+          <li class="nav-item">
+            <button id="logout-btn" class="logout-button">Logout</button>
+          </li>
         </ul>
-
-        <div class="navbar-actions">
-          <button id="dark-mode-toggle" class="theme-toggle">Dark Mode</button>
-        </div>
       </nav>
     </header>
 
@@ -59,13 +69,7 @@
 
             <!-- Pin Code -->
             <div class="input-group">
-              <input
-                type="password"
-                id="pin"
-                class="login-input"
-                placeholder="Enter your pin"
-                required
-              />
+              <input type="password" id="pin" class="login-input" required />
               <label for="pin" class="floating-label">Pin Code</label>
               <span class="toggle-visibility" id="toggle-pin">Show</span>
               <small class="error-message" id="pin-error"></small>
@@ -88,9 +92,35 @@
         <section id="breadcrumb">
           <p>Home > Accounts</p>
         </section>
-        <section id="accounts">
-          <h2>Accounts Section</h2>
-          <p>Details about the user's accounts go here.</p>
+        <section id="accounts" class="account-overview">
+          <h2 class="greeting-message" id="greeting-message"></h2>
+
+          <div class="balance-container">
+            <div class="balance-display">
+              <h1 class="balance">
+                Balance: <span id="balance-amount"></span>
+              </h1>
+              <div class="currency-switcher">
+                <label for="currency-select">Currency:</label>
+                <select id="currency-select">
+                  <option value="ZAR">ZAR</option>
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                </select>
+              </div>
+            </div>
+            <p class="balance-tooltip" id="balance-tooltip">
+              Last Transaction: Deposit of R1,000.00
+            </p>
+          </div>
+
+          <!-- Transactions List -->
+          <div class="transactions-container">
+            <h3>Your Recent Transactions</h3>
+            <ul id="transaction-list" class="transaction-list">
+              <!-- Transactions will be dynamically added here -->
+            </ul>
+          </div>
         </section>
         <section id="loans">
           <h2>Loans Section</h2>
