@@ -10,6 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const balanceTooltip = document.getElementById("balance-tooltip");
   const currencySelect = document.getElementById("currency-select");
   const transactionList = document.getElementById("transaction-list");
+  const searchBar = document.getElementById("search-bar");
+  const transactionTypeFilter = document.getElementById("transaction-type");
+  const startDate = document.getElementById("start-date");
+  const endDate = document.getElementById("end-date");
+  const minAmount = document.getElementById("min-amount");
+  const maxAmount = document.getElementById("max-amount");
   const loginForm = document.getElementById("login-form");
   const usernameInput = document.getElementById("username");
   const pinInput = document.getElementById("pin");
@@ -25,10 +31,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const breadcrumb = document.getElementById("breadcrumb");
   const navItems = document.querySelectorAll(".nav-item");
 
+  // Transfer tooltip
+  const transferBtn = document.getElementById("transfer-btn");
+  const transferTooltip = document.getElementById("transfer-tooltip");
+
+  // Loan tooltip
+  const loanBtn = document.getElementById("loan-btn");
+  const loanTooltip = document.getElementById("loan-tooltip");
+
+  // Close account tooltip
+  const closeAccountBtn = document.getElementById("close-account-btn");
+  const closeTooltip = document.getElementById("close-tooltip");
+
   // Dummy data for user accounts
 
   let balance = 12345.67; // Initial balance in ZAR
   let lastTransaction = { type: "Deposit", amount: 1000.0, currency: "ZAR" };
+  let selectedCurrency = "ZAR";
 
   const users = [
     {
@@ -138,8 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
     homepage.hidden = false;
     navbar.hidden = false;
     setGreeting(user.username);
-    updateBalanceDisplay(user.transactions, "ZAR");
-    renderTransactions(user.transactions, "ZAR");
+    updateBalanceDisplay(user.transactions, selectedCurrency);
+    renderTransactions(user.transactions, selectedCurrency);
   }
 
   // Dark Mode Toggle
@@ -176,8 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
         homepage.hidden = false;
         navbar.hidden = false;
         setGreeting(currentUser.username);
-        updateBalanceDisplay(currentUser.transactions, "ZAR");
-        renderTransactions(currentUser.transactions, "ZAR");
+        updateBalanceDisplay(currentUser.transactions, selectedCurrency);
+        renderTransactions(currentUser.transactions, selectedCurrency);
       } else {
         displayError(usernameError, "Invalid username or pin.");
       }
@@ -186,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Currency switch handling
   currencySelect.addEventListener("change", (e) => {
-    const selectedCurrency = e.target.value;
+    selectedCurrency = e.target.value;
     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (currentUser) {
       updateBalanceDisplay(currentUser.transactions, selectedCurrency);
@@ -210,6 +229,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const isPasswordHidden = pinInput.type === "password";
     pinInput.type = isPasswordHidden ? "text" : "password";
     togglePin.textContent = isPasswordHidden ? "Hide" : "Show";
+  });
+
+  // Event listeners for filters
+  searchBar.addEventListener("input", applyFilters);
+  transactionTypeFilter.addEventListener("change", applyFilters);
+  startDate.addEventListener("change", applyFilters);
+  endDate.addEventListener("change", applyFilters);
+  minAmount.addEventListener("input", applyFilters);
+  maxAmount.addEventListener("input", applyFilters);
+
+  transferBtn.addEventListener("mouseover", () => {
+    transferTooltip.style.visibility = "visible";
+    transferTooltip.style.opacity = "1";
+  });
+
+  transferBtn.addEventListener("mouseout", () => {
+    transferTooltip.style.visibility = "hidden";
+    transferTooltip.style.opacity = "0";
+  });
+
+  loanBtn.addEventListener("mouseover", () => {
+    loanTooltip.style.visibility = "visible";
+    loanTooltip.style.opacity = "1";
+  });
+
+  loanBtn.addEventListener("mouseout", () => {
+    loanTooltip.style.visibility = "hidden";
+    loanTooltip.style.opacity = "0";
+  });
+
+  closeAccountBtn.addEventListener("mouseover", () => {
+    closeTooltip.style.visibility = "visible";
+    closeTooltip.style.opacity = "1";
+  });
+
+  closeAccountBtn.addEventListener("mouseout", () => {
+    closeTooltip.style.visibility = "hidden";
+    closeTooltip.style.opacity = "0";
   });
 
   // Greeting based on time of day
@@ -252,25 +309,78 @@ document.addEventListener("DOMContentLoaded", () => {
     )}`;
   }
 
-  // Render transactions list
-  function renderTransactions(transactions, currency) {
-    transactionList.innerHTML = "";
-    transactions.forEach((transaction) => {
+  // Render Transactions
+  function renderTransactions(filteredTransactions, currency) {
+    transactionList.innerHTML = ""; // Clear the list
+
+    filteredTransactions.forEach((transaction) => {
       const convertedAmount = transaction.amount * currencyRates[currency];
-      const transactionItem = document.createElement("li");
-      transactionItem.classList.add("transaction-item");
-      const amountClass =
+      const row = document.createElement("tr");
+
+      const icon = transaction.type === "Deposit" ? "⬆️" : "⬇️"; // Icons for deposit/withdrawal
+
+      row.innerHTML = `
+      <td>${transaction.date}</td>
+      <td><span class="transaction-icon">${icon}</span>${transaction.type}</td>
+      <td class="transaction-amount ${
         transaction.type === "Deposit"
           ? "transaction-deposit"
-          : "transaction-withdrawal";
-      transactionItem.innerHTML = `<p>${transaction.date} - ${
-        transaction.type
-      }</p><p class="transaction-amount ${amountClass}">${formatCurrency(
-        convertedAmount,
-        currency
-      )}</p>`;
-      transactionList.appendChild(transactionItem);
+          : "transaction-withdrawal"
+      }">${formatCurrency(convertedAmount, currency)}</td>
+    `;
+      transactionList.appendChild(row);
     });
+  }
+
+  // Apply filters
+  function applyFilters() {
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (currentUser) {
+      let filteredTransactions = currentUser.transactions;
+
+      // Search filter
+      const searchTerm = searchBar.value.toLowerCase();
+      if (searchTerm) {
+        filteredTransactions = filteredTransactions.filter(
+          (transaction) =>
+            transaction.type.toLowerCase().includes(searchTerm) ||
+            transaction.date.includes(searchTerm) ||
+            transaction.amount.toString().includes(searchTerm)
+        );
+      }
+
+      // Transaction type filter
+      const selectedType = transactionTypeFilter.value;
+      console.log(selectedType);
+      console.log(filteredTransactions);
+      if (selectedType !== "all") {
+        filteredTransactions = filteredTransactions.filter(
+          (transaction) => transaction.type.toLowerCase() === selectedType
+        );
+      }
+
+      // Date range filter
+      const start = new Date(startDate.value);
+      const end = new Date(endDate.value);
+
+      if (startDate.value && endDate.value) {
+        filteredTransactions = filteredTransactions.filter((transaction) => {
+          const transactionDate = new Date(transaction.date);
+          return transactionDate >= start && transactionDate <= end;
+        });
+      }
+
+      // Amount range filter
+      const min = parseFloat(minAmount.value) || 0;
+      const max = parseFloat(maxAmount.value) || Infinity;
+      filteredTransactions = filteredTransactions.filter(
+        (transaction) => transaction.amount >= min && transaction.amount <= max
+      );
+
+      // Render the filtered transactions
+      renderTransactions(filteredTransactions, selectedCurrency);
+    }
   }
 
   // Form validation

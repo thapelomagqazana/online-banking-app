@@ -132,16 +132,6 @@ button {
   transition: color 0.3s ease;
 }
 
-.logout-button,
-.theme-toggle {
-  border: none;
-  padding: 0.5rem 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 20px;
-  transition: background-color 0.3s ease;
-}
-
 .theme-toggle {
   background-color: var(--secondary-color);
   color: var(--primary-color);
@@ -177,6 +167,10 @@ body.dark-mode .navbar-links a {
 
 body.dark-mode .navbar-links a:hover {
   color: var(--secondary-color);
+}
+
+body.dark-mode .navbar-links.active {
+  background-color: var(--dark-mode-background);
 }
 
 /* Breadcrumb trail */
@@ -369,6 +363,10 @@ section {
 .balance-container {
   position: relative;
   margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: #fff;
 }
 
 .balance-display {
@@ -424,33 +422,97 @@ section {
 .transactions-container {
   margin-top: 2.5rem;
   text-align: left;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.transaction-list {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 1.5rem;
+#search-bar {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
-.transaction-item {
+#search-bar:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.filter-container {
   display: flex;
-  justify-content: space-between;
-  padding: 1.25rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-container label {
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.filter-container input,
+.filter-container select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.filter-container input:focus,
+.filter-container select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Scrollable table */
+.transaction-list-wrapper {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 1rem;
+  text-align: left;
   border-bottom: 1px solid #e0e0e0;
+  font-size: 1rem;
+}
+
+.transaction-table th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  color: #2c3e50;
+  text-transform: uppercase;
+}
+
+.transaction-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transaction-table tbody tr:hover {
+  background-color: #e9e9e9;
+  cursor: pointer;
   transition: background-color 0.3s ease;
-}
-
-.transaction-item:hover {
-  background-color: #f4f4f4;
-}
-
-.transaction-item p {
-  margin: 0;
 }
 
 .transaction-amount {
   font-weight: bold;
-  font-size: 1.2rem;
   color: #333;
 }
 
@@ -460,6 +522,117 @@ section {
 
 .transaction-withdrawal {
   color: #e74c3c;
+}
+
+/* Icons */
+.transaction-icon {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Actions Section Styling */
+.actions-section {
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.common-actions,
+.advanced-actions {
+  margin-bottom: 2rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin: 0.5rem;
+  font-weight: bold;
+}
+
+.action-btn i {
+  margin-right: 0.5rem;
+}
+
+.transfer-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.transfer-btn:hover {
+  background-color: #2980b9;
+}
+
+.loan-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.loan-btn:hover {
+  background-color: #229954;
+}
+
+.close-account-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.close-account-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: absolute;
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.action-item {
+  position: relative;
+  display: inline-block;
+}
+
+/* Display tooltip on button hover */
+.action-item:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Tooltip positioning for each button */
+#transfer-tooltip {
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#loan-tooltip {
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#close-tooltip {
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Mobile: Small screens (max-width: 576px) */
@@ -583,36 +756,81 @@ section {
     padding: 0.4rem;
   }
 
-  .transactions-container {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-
   .balance-tooltip {
     font-size: 0.8rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
-  .transaction-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
-    border-bottom: 1px solid #e0e0e0;
+  .transactions-container {
+    padding: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
-  .transaction-item p {
-    margin-bottom: 0.5rem;
+  #search-bar {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .filter-container label {
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  .filter-container input,
+  .filter-container select {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    text-align: center;
   }
 
   .transaction-amount {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 0.5rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
+    font-size: 0.95rem;
+  }
+
+  .action-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .action-btn i {
+    margin: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .actions-section {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tooltip {
+    display: none;
   }
 }
 
@@ -729,12 +947,50 @@ section {
     font-size: 0.85rem;
   }
 
-  .transaction-item {
-    padding: 1.25rem;
+  .transactions-container {
+    padding: 1rem;
+  }
+
+  #search-bar {
+    padding: 0.6rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .filter-container {
+    gap: 0.75rem;
+  }
+
+  .filter-container label,
+  .filter-container input,
+  .filter-container select {
+    font-size: 0.95rem;
+    padding: 0.45rem;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    padding: 0.85rem;
+    font-size: 0.95rem;
   }
 
   .transaction-amount {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+  }
+
+  .action-btn {
+    font-size: 0.95rem;
+    padding: 0.7rem 1.2rem;
+  }
+
+  .actions-section {
+    padding: 1.5rem;
+  }
+
+  .tooltip {
+    display: block;
+    font-size: 0.8rem;
+    bottom: -35px;
   }
 }
 
@@ -842,11 +1098,47 @@ section {
     font-size: 0.9rem;
   }
 
-  .transaction-item {
-    padding: 1.25rem;
+  .transactions-container {
+    padding: 1.5rem;
+  }
+
+  #search-bar {
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .filter-container {
+    gap: 1rem;
+  }
+
+  .filter-container label,
+  .filter-container input,
+  .filter-container select {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    padding: 1rem;
+    font-size: 1rem;
   }
 
   .transaction-amount {
     font-size: 1.2rem;
+  }
+
+  .action-btn {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .actions-section {
+    padding: 2rem;
+  }
+
+  .tooltip {
+    font-size: 0.85rem;
   }
 }

@@ -8,6 +8,13 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -36,12 +43,14 @@
           </li>
           <!-- Navbar Actions (inside the collapsible menu) -->
           <li class="nav-item">
-            <button id="dark-mode-toggle" class="theme-toggle">
+            <button id="dark-mode-toggle" class="theme-toggle action-btn">
               Dark Mode
             </button>
           </li>
           <li class="nav-item">
-            <button id="logout-btn" class="logout-button">Logout</button>
+            <button id="logout-btn" class="logout-button action-btn">
+              Logout
+            </button>
           </li>
         </ul>
       </nav>
@@ -98,7 +107,8 @@
           <div class="balance-container">
             <div class="balance-display">
               <h1 class="balance">
-                Balance: <span id="balance-amount"></span>
+                Balance:
+                <span id="balance-amount" class="loading-skeleton"></span>
               </h1>
               <div class="currency-switcher">
                 <label for="currency-select">Currency:</label>
@@ -117,9 +127,84 @@
           <!-- Transactions List -->
           <div class="transactions-container">
             <h3>Your Recent Transactions</h3>
-            <ul id="transaction-list" class="transaction-list">
-              <!-- Transactions will be dynamically added here -->
-            </ul>
+
+            <!-- Search Bar -->
+            <input
+              type="text"
+              id="search-bar"
+              placeholder="Search transactions..."
+            />
+
+            <!-- Filter Options -->
+            <div class="filter-container">
+              <label for="transaction-type">Type:</label>
+              <select id="transaction-type">
+                <option value="all">All</option>
+                <option value="deposit">Deposits</option>
+                <option value="withdrawal">Withdrawals</option>
+              </select>
+
+              <label for="date-range">Date Range:</label>
+              <input type="date" id="start-date" /> to
+              <input type="date" id="end-date" />
+
+              <label for="amount-range">Amount Range:</label>
+              <input type="number" id="min-amount" placeholder="Min" /> to
+              <input type="number" id="max-amount" placeholder="Max" />
+            </div>
+
+            <!-- Scrollable Table -->
+            <div class="transaction-list-wrapper">
+              <table class="transaction-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="transaction-list">
+                  <!-- Transactions will be dynamically rendered here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="actions" class="actions-section">
+          <div class="common-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-item">
+              <button id="transfer-btn" class="action-btn transfer-btn">
+                <i class="fas fa-exchange-alt"></i> Transfer Money
+              </button>
+              <div class="tooltip" id="transfer-tooltip">
+                Move funds between your accounts or to another user.
+              </div>
+            </div>
+            <div class="action-item">
+              <button id="loan-btn" class="action-btn loan-btn">
+                <i class="fas fa-handshake"></i> Request Loan
+              </button>
+              <div class="tooltip" id="loan-tooltip">
+                Request a loan based on your account eligibility.
+              </div>
+            </div>
+          </div>
+
+          <div class="advanced-actions">
+            <h3>Advanced Actions</h3>
+            <div class="action-item">
+              <button
+                id="close-account-btn"
+                class="action-btn close-account-btn"
+              >
+                <i class="fas fa-times-circle"></i> Close Account
+              </button>
+              <div class="tooltip" id="close-tooltip">
+                Permanently close your account. This action cannot be undone.
+              </div>
+            </div>
           </div>
         </section>
         <section id="loans">
