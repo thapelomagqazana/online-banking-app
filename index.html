@@ -178,17 +178,11 @@
               <button id="transfer-btn" class="action-btn transfer-btn">
                 <i class="fas fa-exchange-alt"></i> Transfer Money
               </button>
-              <div class="tooltip" id="transfer-tooltip">
-                Move funds between your accounts or to another user.
-              </div>
             </div>
             <div class="action-item">
               <button id="loan-btn" class="action-btn loan-btn">
                 <i class="fas fa-handshake"></i> Request Loan
               </button>
-              <div class="tooltip" id="loan-tooltip">
-                Request a loan based on your account eligibility.
-              </div>
             </div>
           </div>
 
@@ -201,9 +195,73 @@
               >
                 <i class="fas fa-times-circle"></i> Close Account
               </button>
-              <div class="tooltip" id="close-tooltip">
-                Permanently close your account. This action cannot be undone.
+            </div>
+          </div>
+
+          <!-- Transfer Money Modal -->
+          <div id="transfer-modal" class="modal">
+            <div class="modal-content">
+              <span class="close-btn">&times;</span>
+              <h3>Transfer Money</h3>
+              <div class="modal-steps">
+                <div class="step">Step 1: Enter Recipient</div>
+                <div class="step">Step 2: Enter Amount</div>
               </div>
+              <form id="transfer-form">
+                <label for="recipient">Recipient's Username:</label>
+                <input type="text" id="recipient" required />
+
+                <label for="transfer-amount">Amount:</label>
+                <input type="number" id="transfer-amount" required />
+
+                <small class="error-message"></small>
+                <button type="submit" class="modal-btn transfer-submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Loan Request Modal -->
+          <div id="loan-modal" class="modal">
+            <div class="modal-content">
+              <span class="close-btn">&times;</span>
+              <h3>Request Loan</h3>
+              <div class="modal-steps">
+                <div class="step">Step 1: Enter Loan Amount</div>
+                <div class="step">Step 2: Confirm Request</div>
+              </div>
+              <form id="loan-form">
+                <label for="loan-amount">Loan Amount:</label>
+                <input type="number" id="loan-amount" required />
+
+                <button type="submit" class="modal-btn loan-submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Account Closure Modal -->
+          <div id="close-account-modal" class="modal">
+            <div class="modal-content">
+              <span class="close-btn">&times;</span>
+              <h3>Close Account</h3>
+              <p class="step">
+                This action cannot be undone. Are you sure you want to close
+                your account?
+              </p>
+              <form id="close-account-form">
+                <label for="closure-username">Username:</label>
+                <input type="text" id="closure-username" required />
+
+                <label for="closure-pin">Pin Code:</label>
+                <input type="password" id="closure-pin" required />
+
+                <button type="submit" class="modal-btn close-submit">
+                  Confirm
+                </button>
+              </form>
             </div>
           </div>
         </section>

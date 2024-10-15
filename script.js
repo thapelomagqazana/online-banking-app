@@ -31,17 +31,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const breadcrumb = document.getElementById("breadcrumb");
   const navItems = document.querySelectorAll(".nav-item");
 
-  // Transfer tooltip
   const transferBtn = document.getElementById("transfer-btn");
-  const transferTooltip = document.getElementById("transfer-tooltip");
 
   // Loan tooltip
   const loanBtn = document.getElementById("loan-btn");
-  const loanTooltip = document.getElementById("loan-tooltip");
 
-  // Close account tooltip
   const closeAccountBtn = document.getElementById("close-account-btn");
-  const closeTooltip = document.getElementById("close-tooltip");
+  // Get modals
+  const transferModal = document.getElementById("transfer-modal");
+  const loanModal = document.getElementById("loan-modal");
+  const closeAccountModal = document.getElementById("close-account-modal");
+
+  const closeButtons = document.querySelectorAll(".close-btn");
 
   // Dummy data for user accounts
 
@@ -53,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       username: "john_doe",
       pin: 1234,
+      balance: 10000,
       transactions: [
         {
           date: "2024-10-05",
@@ -83,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       username: "jane_doe",
       pin: 5678,
+      balance: 10000,
       transactions: [
         { date: "2024-10-05", type: "Deposit", amount: 5000, currency: "ZAR" },
         {
@@ -103,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       username: "david_smith",
       pin: 2468,
+      balance: 10000,
       transactions: [
         { date: "2024-10-05", type: "Deposit", amount: 5000, currency: "ZAR" },
         {
@@ -123,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       username: "alice_jones",
       pin: 1357,
+      balance: 10000,
       transactions: [
         { date: "2024-10-05", type: "Deposit", amount: 5000, currency: "ZAR" },
         {
@@ -195,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
         homepage.hidden = false;
         navbar.hidden = false;
         setGreeting(currentUser.username);
-        updateBalanceDisplay(currentUser.transactions, selectedCurrency);
+        updateBalanceDisplay(currentUser.balance, selectedCurrency);
         renderTransactions(currentUser.transactions, selectedCurrency);
       } else {
         displayError(usernameError, "Invalid username or pin.");
@@ -208,8 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedCurrency = e.target.value;
     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (currentUser) {
-      updateBalanceDisplay(currentUser.transactions, selectedCurrency);
-      renderTransactions(currentUser.transactions, selectedCurrency);
+      const user = users.find((user) => user.username === currentUser.username);
+      updateBalanceDisplay(user.balance, selectedCurrency);
+      renderTransactions(user.transactions, selectedCurrency);
     }
   });
 
@@ -239,35 +245,111 @@ document.addEventListener("DOMContentLoaded", () => {
   minAmount.addEventListener("input", applyFilters);
   maxAmount.addEventListener("input", applyFilters);
 
-  transferBtn.addEventListener("mouseover", () => {
-    transferTooltip.style.visibility = "visible";
-    transferTooltip.style.opacity = "1";
+  // Open Modals
+  transferBtn.addEventListener(
+    "click",
+    () => (transferModal.style.display = "flex")
+  );
+  loanBtn.addEventListener("click", () => (loanModal.style.display = "flex"));
+  closeAccountBtn.addEventListener(
+    "click",
+    () => (closeAccountModal.style.display = "flex")
+  );
+
+  // Close Modals
+  closeButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      transferModal.style.display = "none";
+      loanModal.style.display = "none";
+      closeAccountModal.style.display = "none";
+    })
+  );
+
+  // Close modal if clicking outside of content
+  window.addEventListener("click", (e) => {
+    if (
+      e.target === transferModal ||
+      e.target === loanModal ||
+      e.target === closeAccountModal
+    ) {
+      transferModal.style.display = "none";
+      loanModal.style.display = "none";
+      closeAccountModal.style.display = "none";
+    }
   });
 
-  transferBtn.addEventListener("mouseout", () => {
-    transferTooltip.style.visibility = "hidden";
-    transferTooltip.style.opacity = "0";
+  // Form validation and error handling
+  const transferForm = document.getElementById("transfer-form");
+  const loanForm = document.getElementById("loan-form");
+  const closeAccountForm = document.getElementById("close-account-form");
+
+  transferForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    showError(transferForm, "");
+    const recipientUsername = document.getElementById("recipient").value.trim();
+    const amount = parseFloat(document.getElementById("transfer-amount").value);
+
+    const recipient = users.find((user) => user.username === recipientUsername);
+
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    const sender = users.find((user) => user.username === currentUser.username);
+
+    if (!recipient) {
+      showError(transferForm, "Recipient not found.");
+      return;
+    }
+
+    if (!currentUser) {
+      showError(transferForm, "Current user not found.");
+      return;
+    }
+
+    if (!amount || amount <= 0 || amount > sender.balance) {
+      showError(transferForm, "Please enter a valid amount.");
+      return;
+    }
+
+    // Update the sender's balance
+    sender.balance -= amount;
+
+    // Update sender's account by subtracting the transferred amount
+    sender.transactions.push({
+      date: new Date().toISOString().slice(0, 10), // Current Date
+      type: "Withdrawal",
+      amount,
+      currency: selectedCurrency,
+    });
+
+    // Update the recipient's balance
+    recipient.balance += amount;
+
+    // Update recipient's account by adding the transferred amount
+    recipient.transactions.push({
+      date: new Date().toISOString().slice(0, 10), // Current Date
+      type: "Deposit",
+      amount,
+      currency: selectedCurrency,
+    });
+
+    console.log(
+      `Transferred ${amount} ${selectedCurrency} to ${recipientUsername}`
+    );
+
+    // Close the modal after successful transaction
+    transferModal.style.display = "none";
+
+    // Optionally, display confirmation or update the UI
+    updateBalanceDisplay(sender.balance, selectedCurrency);
+    renderTransactions(sender.transactions, selectedCurrency);
   });
 
-  loanBtn.addEventListener("mouseover", () => {
-    loanTooltip.style.visibility = "visible";
-    loanTooltip.style.opacity = "1";
-  });
-
-  loanBtn.addEventListener("mouseout", () => {
-    loanTooltip.style.visibility = "hidden";
-    loanTooltip.style.opacity = "0";
-  });
-
-  closeAccountBtn.addEventListener("mouseover", () => {
-    closeTooltip.style.visibility = "visible";
-    closeTooltip.style.opacity = "1";
-  });
-
-  closeAccountBtn.addEventListener("mouseout", () => {
-    closeTooltip.style.visibility = "hidden";
-    closeTooltip.style.opacity = "0";
-  });
+  function showError(form, message) {
+    const errorMsg = form.querySelector(".error-message");
+    errorMsg.textContent = message;
+    errorMsg.style.display = "block";
+  }
 
   // Greeting based on time of day
   function setGreeting(username) {
@@ -290,15 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Update balance display and tooltip
-  function updateBalanceDisplay(transactions, currency) {
-    const balance = transactions.reduce(
-      (acc, transaction) =>
-        acc +
-        (transaction.type === "Deposit"
-          ? transaction.amount
-          : -transaction.amount),
-      0
-    );
+  function updateBalanceDisplay(balance, currency) {
     balanceAmount.textContent = formatCurrency(
       balance * currencyRates[currency],
       currency
@@ -352,8 +426,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Transaction type filter
       const selectedType = transactionTypeFilter.value;
-      console.log(selectedType);
-      console.log(filteredTransactions);
       if (selectedType !== "all") {
         filteredTransactions = filteredTransactions.filter(
           (transaction) => transaction.type.toLowerCase() === selectedType
