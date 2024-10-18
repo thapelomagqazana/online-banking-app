@@ -308,6 +308,157 @@ section {
   color: white;
 }
 
+/* Account Overview Styling */
+.account-overview {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1), -5px -5px 20px #ffffff;
+}
+
+.account-overview h2,
+.transactions-container h3 {
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.greeting-message {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4caf50;
+  text-align: center;
+  background: linear-gradient(90deg, #4caf50, #80deea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 25px;
+}
+
+.balance-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.balance-display {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.dynamic-balance {
+  font-size: 3rem;
+  color: #4caf50;
+  font-weight: 800;
+  text-align: center;
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Currency Switcher */
+.currency-switcher {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.currency-switcher label {
+  margin-right: 12px;
+}
+
+#currency-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f7f8fa;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+#currency-select:hover {
+  border-color: #4caf50;
+}
+
+/* Neumorphic Card Style */
+.neumorphic-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -8px -8px 15px #ffffff;
+  transition: all 0.3s ease;
+}
+
+.neumorphic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.1), -10px -10px 25px #ffffff;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Transactions Table */
+.transactions-container {
+  margin-top: 30px;
+}
+
+.transaction-list-wrapper {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-width: 100%; /* Ensure it doesn't overflow horizontally */
+  max-height: 300px; /* Set a maximum height to enable vertical scrolling */
+  margin-top: 15px;
+  border: 1px solid #ddd; /* Optional: to define the boundary of the table */
+  border-radius: 8px; /* Optional: for smooth edges */
+}
+
+.transaction-table {
+  width: 100%; /* Ensure the table takes the full width */
+  min-width: 600px; /* Set a minimum width so the table can scroll horizontally */
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.transaction-table th {
+  background-color: #f7f8fa;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+
+.transaction-table tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
+}
+
+.transaction-table td {
+  font-size: 1rem;
+  color: #555;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+}
+
 /* Dark Mode Styles (Optional, toggled via JavaScript) */
 body.dark-mode {
   background-color: #121212;
@@ -382,6 +533,48 @@ body.dark-mode .logout-button {
     top: 10px;
     right: 10px;
   }
+
+  .account-overview {
+    margin-top: 20px;
+    padding: 15px;
+  }
+
+  .account-overview h2,
+  .transactions-container h3 {
+    font-size: 1.5rem;
+  }
+
+  .balance-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .balance {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    white-space: normal; /* Allows text to wrap */
+    word-wrap: break-word; /* Wrap text to a new line if necessary */
+  }
+
+  .dynamic-balance {
+    font-size: 1.8rem;
+  }
+
+  .currency-switcher {
+    margin-top: 15px;
+    padding: 8px;
+    font-size: 1rem;
+  }
+
+  .transaction-list-wrapper {
+    max-height: 250px;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
 }
 
 /* Medium Devices - Tablets (min-width: 576px and max-width: 991px) */
@@ -427,6 +620,28 @@ body.dark-mode .logout-button {
     top: 15px;
     right: 15px;
   }
+
+  .account-overview {
+    padding: 20px;
+  }
+
+  .greeting-message {
+    font-size: 2.2rem;
+  }
+
+  .dynamic-balance {
+    font-size: 2.8rem;
+  }
+
+  .currency-switcher {
+    margin-top: 10px;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
 }
 
 /* Large Devices - Laptops and Desktops (min-width: 992px) */
@@ -470,5 +685,33 @@ body.dark-mode .logout-button {
   .sidebar-toggle {
     top: 20px;
     right: 20px;
+  }
+
+  .account-overview {
+    margin-top: 40px;
+    padding: 25px;
+  }
+
+  .greeting-message {
+    font-size: 2.5rem;
+  }
+
+  .balance-container {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .dynamic-balance {
+    font-size: 3rem;
+  }
+
+  .currency-switcher {
+    margin-top: 0;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    font-size: 1rem;
+    padding: 12px;
   }
 }

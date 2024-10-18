@@ -3,28 +3,61 @@ document.addEventListener("DOMContentLoaded", () => {
   const accounts = [
     {
       owner: "Thapelo Skhona Magqazana",
-      movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+      movements: [
+        { amount: 200, date: "2024-10-01" },
+        { amount: 450, date: "2024-10-02" },
+        { amount: -400, date: "2024-10-03" },
+        { amount: 3000, date: "2024-10-04" },
+        { amount: -650, date: "2024-10-05" },
+        { amount: -130, date: "2024-10-06" },
+        { amount: 70, date: "2024-10-07" },
+        { amount: 1300, date: "2024-10-08" },
+      ],
       balance: 100000,
       interestRate: 1.2, // %
       pin: 1111,
     },
     {
       owner: "Jessica Davis",
-      movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+      movements: [
+        { amount: 5000, date: "2024-10-01" },
+        { amount: 3400, date: "2024-10-02" },
+        { amount: -150, date: "2024-10-03" },
+        { amount: -790, date: "2024-10-04" },
+        { amount: -3210, date: "2024-10-05" },
+        { amount: -1000, date: "2024-10-06" },
+        { amount: 8500, date: "2024-10-07" },
+        { amount: -30, date: "2024-10-08" },
+      ],
       balance: 100000,
       interestRate: 1.5,
       pin: 2222,
     },
     {
       owner: "Steven Thomas Williams",
-      movements: [200, -200, 340, -300, -20, 50, 400, -460],
+      movements: [
+        { amount: 200, date: "2024-10-01" },
+        { amount: -200, date: "2024-10-02" },
+        { amount: 340, date: "2024-10-03" },
+        { amount: -300, date: "2024-10-04" },
+        { amount: -20, date: "2024-10-05" },
+        { amount: 50, date: "2024-10-06" },
+        { amount: 400, date: "2024-10-07" },
+        { amount: -460, date: "2024-10-08" },
+      ],
       balance: 100000,
       interestRate: 0.7,
       pin: 3333,
     },
     {
       owner: "Sarah Smith",
-      movements: [430, 1000, 700, 50, 90],
+      movements: [
+        { amount: 430, date: "2024-10-01" },
+        { amount: 1000, date: "2024-10-02" },
+        { amount: 700, date: "2024-10-03" },
+        { amount: 50, date: "2024-10-04" },
+        { amount: 90, date: "2024-10-05" },
+      ],
       balance: 100000,
       interestRate: 1,
       pin: 4444,
@@ -33,15 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Element references
   const loginForm = document.getElementById("login-form");
-  const loginCard = document.querySelector(".login-card");
+  const loginContainer = document.querySelector(".login-container");
   const usernameInput = document.getElementById("username");
   const pinInput = document.getElementById("pin");
   const togglePin = document.getElementById("toggle-pin");
   const rememberMeCheckbox = document.getElementById("remember-me");
   const sectionHomePage = document.getElementById("homepage");
-  const greetMessage = document.getElementById("greeting-message");
   const balanceAmount = document.getElementById("balance-amount");
-  const hamburgerIcon = document.getElementById("hamburger-icon");
   const sidebar = document.getElementById("sidebar");
   const sidebarToggle = document.getElementById("sidebar-toggle");
   const sidebarContent = document.querySelector(".sidebar-content");
@@ -71,14 +102,23 @@ document.addEventListener("DOMContentLoaded", () => {
     errorMessage.style.visibility = stateOfVisibility;
   };
 
-  // Toggle sidebar open/close
-  sidebarToggle.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
-  });
+  const greetMessageBasedOnTimeOfDay = (name) => {
+    const greetingMessage = document.getElementById("greeting-message");
+    const hours = new Date().getHours();
 
-  const updateNavBar = () => {
+    if (hours < 12) {
+      greetingMessage.textContent = `Good Morning, ${name}`;
+    } else if (hours < 18) {
+      greetingMessage.textContent = `Good Afternoon, ${name}`;
+    } else {
+      greetingMessage.textContent = `Good Evening, ${name}`;
+    }
+  };
+
+  const updateSideBar = () => {
     // Clear the container
     sidebarContent.innerHTML = "";
+
     sidebarContent.innerHTML = `
         <button id="dark-mode-toggle" class="theme-toggle action-btn">
           Dark Mode
@@ -102,36 +142,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("darkMode") === "enabled") {
       document.body.classList.add("dark-mode");
     }
-
-    // mobileMenu = document.getElementById("mobile-menu");
   };
 
   const displayHomePage = (state) => {
     sectionHomePage.style.display = state;
   };
 
-  // Initial setup - hide hamburger and menu by default
-  // hamburgerIcon.style.display = "none";
-
-  // Function to show hamburger and enable mobile menu toggle
-  const enableMobileMenu = () => {
-    if (window.innerWidth <= 576) {
-      hamburgerIcon.style.display = "block"; // Show hamburger only on small screens
-      let isMenuOpen = false;
-
-      hamburgerIcon.addEventListener("click", () => {
-        isMenuOpen = !isMenuOpen;
-
-        if (isMenuOpen) {
-          mobileMenu.style.display = "flex"; // Show the mobile menu
-        } else {
-          mobileMenu.style.display = "none"; // Hide the mobile menu
-        }
-
-        hamburgerIcon.classList.toggle("rotate"); // Rotate icon when clicked
-      });
-    }
-  };
+  // Toggle sidebar open/close
+  sidebarToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+  });
 
   // Toggle Pin Visibility
   togglePin.addEventListener("click", () => {
@@ -144,7 +164,60 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  const currencyCalculation = (balance, selectedCurrency) => {
+    let currencySymbol;
+    if (selectedCurrency === "USD") {
+      balance = balance / 18.5;
+      currencySymbol = "$";
+    } else if (selectedCurrency === "EUR") {
+      balance = balance / 20;
+      currencySymbol = `€`;
+    } else {
+      currencySymbol = `R`;
+    }
+
+    return `${currencySymbol} ${balance.toFixed(2)}`;
+  };
+
+  // Render transactions
+  const renderTransactions = (transactions, selectedCurrency) => {
+    const transactionsList = document.getElementById("transaction-list");
+
+    transactionsList.innerHTML = "";
+
+    transactions.forEach((transaction) => {
+      const type = transaction.amount > 0 ? "Deposit" : "Withdrawal";
+      const transactionDetails = `
+        <tr>
+            <td>${transaction.date}</td>
+            <td>${type}</td>
+            <td>${currencyCalculation(
+              Math.abs(transaction.amount),
+              selectedCurrency
+            )}</td>
+        </tr>
+      `;
+
+      transactionsList.innerHTML += transactionDetails;
+    });
+  };
+
   let currentAccount;
+  let selectedCurrency = "ZAR";
+  // Currency Switcher
+  const currencySelect = document.getElementById("currency-select");
+
+  currencySelect.addEventListener("change", function () {
+    selectedCurrency = this.value;
+    balanceAmount.textContent = currencyCalculation(
+      currentAccount.balance,
+      selectedCurrency
+    );
+
+    // Re-render the transaction list
+    renderTransactions(currentAccount.movements, selectedCurrency);
+  });
+
   displayHomePage("none");
 
   // Form Validation
@@ -188,10 +261,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Login success
-    loginCard.style.display = "none"; // Hide login form
-    updateNavBar(); // Update navbar after login
+    loginContainer.style.display = "none"; // Hide login form
+    updateSideBar(); // Update navbar after login
     displayHomePage("block"); // Show homepage
-    greetMessage.textContent = `Welcome, ${currentAccount.owner}`;
-    balanceAmount.textContent = currentAccount.balance;
+    greetMessageBasedOnTimeOfDay(currentAccount.owner);
+    balanceAmount.textContent = currencyCalculation(
+      currentAccount.balance,
+      selectedCurrency
+    );
+    renderTransactions(currentAccount.movements, selectedCurrency);
   });
 });
