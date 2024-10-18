@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>[DEMO] : Imali X</title>
     <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
@@ -19,46 +23,36 @@
   </head>
   <body>
     <!-- Navigation Bar -->
-    <header id="navbar" hidden>
-      <nav class="navbar sticky">
+    <header id="navbar" class="navbar sticky">
+      <nav class="navbar-content">
+        <!-- Logo and Bank Name -->
         <div class="navbar-logo">
-          <img src="" alt="Imali X's logo" />
+          <img src="./images/savings.png" alt="Imali X Logo" />
           <h1>Imali X</h1>
         </div>
 
-        <!-- Hamburger Icon (Hidden on larger screens) -->
-        <div id="hamburger-icon" class="hamburger-icon" aria-label="Menu">
-          &#9776;
+        <!-- Action Buttons: Dark Mode and Logout -->
+        <!-- <div id="navbar-actions" class="navbar-actions">
+          <h1 class="login-btn">Login</h1>
+        </div> -->
+
+        <!-- Sidebar for Dark Mode and Logout -->
+        <div id="sidebar" class="sidebar">
+          <div class="sidebar-content">
+            <h1 class="login-btn">Login</h1>
+          </div>
         </div>
 
-        <ul class="navbar-links" id="navbar-links">
-          <li class="nav-item active">
-            <a href="#accounts">Accounts</a>
-          </li>
-          <li class="nav-item">
-            <a href="#loans">Loans</a>
-          </li>
-          <li class="nav-item">
-            <a href="#support">Support</a>
-          </li>
-          <!-- Navbar Actions (inside the collapsible menu) -->
-          <li class="nav-item">
-            <button id="dark-mode-toggle" class="theme-toggle action-btn">
-              Dark Mode
-            </button>
-          </li>
-          <li class="nav-item">
-            <button id="logout-btn" class="logout-button action-btn">
-              Logout
-            </button>
-          </li>
-        </ul>
+        <!-- Button to open the sidebar (hamburger icon or settings icon) -->
+        <div id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
       </nav>
     </header>
 
     <main>
-      <!-- Login Section -->
-      <section class="login-container" id="login-section">
+      <!-- Login Card -->
+      <div class="login-container">
         <div class="login-card">
           <h2 class="login-heading">Login to Imali X</h2>
 
@@ -69,19 +63,24 @@
                 type="text"
                 id="username"
                 class="login-input"
+                placeholder=" "
                 required
                 autofocus
               />
               <label for="username" class="floating-label">Username</label>
-              <small class="error-message" id="username-error"></small>
             </div>
 
             <!-- Pin Code -->
             <div class="input-group">
-              <input type="password" id="pin" class="login-input" required />
+              <input
+                type="password"
+                id="pin"
+                class="login-input"
+                placeholder=" "
+                required
+              />
               <label for="pin" class="floating-label">Pin Code</label>
               <span class="toggle-visibility" id="toggle-pin">Show</span>
-              <small class="error-message" id="pin-error"></small>
             </div>
 
             <!-- Remember Me -->
@@ -90,17 +89,15 @@
               <label for="remember-me">Remember Me</label>
             </div>
 
+            <small class="error-message"></small>
             <!-- Submit Button -->
             <button type="submit" class="login-button">Login</button>
           </form>
         </div>
-      </section>
+      </div>
 
       <!-- Homepage Components (Initially Hidden) -->
-      <section id="homepage" hidden>
-        <section id="breadcrumb">
-          <p>Home > Accounts</p>
-        </section>
+      <section id="homepage">
         <section id="accounts" class="account-overview">
           <h2 class="greeting-message" id="greeting-message"></h2>
 
@@ -108,7 +105,7 @@
             <div class="balance-display">
               <h1 class="balance">
                 Balance:
-                <span id="balance-amount" class="loading-skeleton"></span>
+                <span id="balance-amount"></span>
               </h1>
               <div class="currency-switcher">
                 <label for="currency-select">Currency:</label>
@@ -119,14 +116,11 @@
                 </select>
               </div>
             </div>
-            <p class="balance-tooltip" id="balance-tooltip">
-              Last Transaction: Deposit of R1,000.00
-            </p>
           </div>
 
           <!-- Transactions List -->
           <div class="transactions-container">
-            <h3>Your Recent Transactions</h3>
+            <h3>Your Transactions</h3>
 
             <!-- Search Bar -->
             <input
@@ -235,6 +229,7 @@
                 <label for="loan-amount">Loan Amount:</label>
                 <input type="number" id="loan-amount" required />
 
+                <small class="error-message"></small>
                 <button type="submit" class="modal-btn loan-submit">
                   Submit
                 </button>
@@ -258,6 +253,7 @@
                 <label for="closure-pin">Pin Code:</label>
                 <input type="password" id="closure-pin" required />
 
+                <small class="error-message"></small>
                 <button type="submit" class="modal-btn close-submit">
                   Confirm
                 </button>
@@ -265,6 +261,53 @@
             </div>
           </div>
         </section>
+
+        <section id="financial-summary" class="financial-summary">
+          <h2>Financial Summary</h2>
+
+          <div class="summary-cards">
+            <!-- Deposits Card -->
+            <div class="summary-card" id="deposits-card">
+              <h3>Deposits</h3>
+              <p id="total-deposits">R0.00</p>
+              <button class="details-btn" id="deposits-details-btn">
+                View Details
+              </button>
+            </div>
+
+            <!-- Withdrawals Card -->
+            <div class="summary-card" id="withdrawals-card">
+              <h3>Withdrawals</h3>
+              <p id="total-withdrawals">R0.00</p>
+              <button class="details-btn" id="withdrawals-details-btn">
+                View Details
+              </button>
+            </div>
+
+            <!-- Interest Earned Card -->
+            <div class="summary-card" id="interest-card">
+              <h3>Interest Earned</h3>
+              <p id="total-interest">R0.00</p>
+              <button class="details-btn" id="interest-details-btn">
+                View Details
+              </button>
+            </div>
+          </div>
+
+          <!-- Graphical Summary Section -->
+          <div class="graphical-summary">
+            <canvas id="financial-pie-chart"></canvas>
+          </div>
+
+          <!-- Recent Interest Breakdown -->
+          <div id="interest-breakdown" class="interest-breakdown">
+            <h3>Recent Interest Breakdown</h3>
+            <ul id="interest-payments-list">
+              <!-- Dynamic list of interest payments -->
+            </ul>
+          </div>
+        </section>
+
         <section id="loans">
           <h2>Loans Section</h2>
           <p>Details about loans go here.</p>

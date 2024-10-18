@@ -1,1302 +1,474 @@
-/* General reset */
+/* General Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
   scroll-behavior: smooth;
 }
 
-:root {
-  --primary-color: #004080;
-  --primary-color-darker: #003366;
-  --secondary-color: #ffcc00;
-  --secondary-color-accent: #ffdc5e;
-  --background-color: #f4f7f9;
-  --background-color-accent: #f8f9fa;
-  --text-color: #333;
-  --dark-mode-background: #181818;
-  --dark-mode-text: #e0e0e0;
+body {
+  background: linear-gradient(135deg, #e0f7fa, #80deea);
+  color: #333;
+  margin: 0;
+  overflow-x: hidden;
 }
 
-body {
-  font-family: "Roboto", sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
+main {
+  padding: 2rem;
+}
+
+body,
+button {
+  font-family: "Poppins", sans-serif;
   line-height: 1.6;
 }
 
-/* Headings */
-h1,
-h2,
-h3 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-}
-
-p,
-a,
-button {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-}
-
-/* Navbar styling */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-  position: relative;
-  z-index: 1000;
-}
-
-.navbar-logo {
-  display: flex;
-  align-items: center;
-  background-color: var(--background-color);
-  padding: 0.5rem;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.navbar-logo img {
-  width: 40px;
-  height: 40px;
-  margin-right: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.navbar-logo:hover img {
-  transform: scale(1.1);
-}
-
-.navbar-links {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.navbar-links a {
-  text-decoration: none;
-  color: white;
-  font-weight: 500;
-  position: relative;
-  padding: 0.5rem 0;
-  transition: color 0.3s ease;
-}
-
-.navbar-links a:hover {
-  color: var(--secondary-color);
-}
-
-.nav-item.active a {
-  color: var(--secondary-color);
-}
-
-.nav-item.active a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -5px;
-  height: 3px;
-  background-color: var(--secondary-color);
-  transition: width 0.3s ease;
-  width: 50%; /* Partial underline for active link */
-}
-
-.nav-item.active a:hover::after {
-  width: 100%; /* Full underline on hover */
-}
-
-.sticky {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background-color: var(--primary-color);
-  z-index: 1000;
-}
-
-.hamburger-icon {
-  font-size: 2rem;
-  display: none;
-  cursor: pointer;
-  color: white;
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-}
-
-.logout-button {
-  background-color: #e74c3c;
-  color: var(--primary-color);
-}
-
-.logout-button:hover {
-  background-color: #c0392b;
-}
-
-.theme-toggle:hover {
-  background-color: var(--secondary-color-accent);
-}
-
-/* Dark mode */
-body.dark-mode {
-  background-color: var(--dark-mode-background);
-  color: var(--dark-mode-text);
-}
-
-body.dark-mode .navbar {
-  background-color: var(--dark-mode-background);
-  border-bottom: 2px solid #f4f7f9;
-}
-
-body.dark-mode .navbar-links a {
-  color: var(--dark-mode-text);
-}
-
-body.dark-mode .navbar-links a:hover {
-  color: var(--secondary-color);
-}
-
-body.dark-mode .navbar-links.active {
-  background-color: var(--dark-mode-background);
-}
-
-/* Breadcrumb trail */
-#breadcrumb {
-  padding: 1rem;
-  background-color: var(--dark-mode-text);
-  margin: 1rem 0;
-  border-radius: 8px;
-}
-
-#breadcrumb p {
-  color: var(--text-color);
-  font-size: 0.9rem;
-}
-
-/* Main sections styling */
-main {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 section {
-  margin: 2rem 0;
+  margin-bottom: 1.5rem;
 }
 
-/* Login Section */
+/* Login Card Container */
 .login-container {
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: var(--background-color);
-  padding: 1rem;
+  height: calc(100vh - 80px);
 }
 
+/* Neumorphic Login Card */
 .login-card {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 12px #ffffff;
+  transition: all 0.3s ease;
   max-width: 400px;
   width: 100%;
-  text-align: center;
-  transition: box-shadow 0.3s ease;
 }
 
 .login-card:hover {
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.1), -6px -6px 18px #ffffff;
 }
 
+/* Login Heading */
 .login-heading {
-  font-size: 1.8rem;
-  margin-bottom: 2.5rem;
-  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #4caf50;
 }
 
-/* Input Fields */
+/* Form and Input Styles */
+#login-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .input-group {
   position: relative;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.25rem;
 }
 
 .login-input {
   width: 100%;
-  padding: 0.85rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #f7f8fa;
+  border: none;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05), inset -2px -2px 5px #ffffff;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .login-input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.1);
+  box-shadow: 0px 0px 10px rgba(76, 175, 80, 0.5);
+  border: 1px solid #4caf50;
 }
 
 /* Floating Labels */
 .floating-label {
   position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
+  top: 12px;
+  left: 14px;
   font-size: 1rem;
-  color: #aaa;
-  transition: 0.3s ease;
-  pointer-events: none;
+  color: #888;
+  transition: 0.2s ease all;
 }
 
 .login-input:focus + .floating-label,
 .login-input:not(:placeholder-shown) + .floating-label {
-  top: -10px;
-  font-size: 0.75rem;
-  color: var(--primary-color);
-  background-color: white;
-  padding: 0 5px;
-  margin-left: -5px;
+  top: -18px;
+  left: 14px;
+  font-size: 0.875rem;
+  color: #4caf50;
 }
 
-/* Toggle Visibility */
+/* Toggle Password Visibility */
 .toggle-visibility {
   position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
+  top: 14px;
+  right: 10px;
   cursor: pointer;
-  color: var(--primary-color);
-  font-size: 0.9rem;
-  user-select: none;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
+  font-size: 0.875rem;
+  color: #4caf50;
+  transition: color 0.3s ease;
 }
 
 .toggle-visibility:hover {
-  opacity: 1;
+  color: #388e3c;
 }
 
-/* Remember Me */
+/* Error Messages */
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  visibility: hidden; /* Hidden by default */
+}
+
+.input-group.error .error-message {
+  visibility: visible; /* Show when there's an error */
+}
+
+.input-group.error .login-input {
+  border-color: red;
+  box-shadow: 0 0 0.3rem rgba(255, 0, 0, 0.3);
+}
+
+/* Remember Me Checkbox */
 .remember-me {
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
-  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: #555;
 }
 
 .remember-me input {
   margin-right: 0.5rem;
 }
 
-/* Submit Button */
+/* Login Button */
 .login-button {
-  background-color: var(--primary-color);
+  background-color: #4caf50;
   color: white;
+  padding: 0.75rem;
   border: none;
-  padding: 0.85rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.2s ease;
 }
 
 .login-button:hover {
-  background-color: var(--primary-color-darker);
-  transform: translateY(-2px);
+  background-color: #45a045;
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
 }
 
-.login-button:active {
-  transform: translateY(0);
-}
-
-/* Error Messages */
-.error-message {
-  font-size: 0.85rem;
-  color: red;
-  display: none;
-  text-align: left;
-  margin-top: 0.3rem;
-}
-
-/* Input Validation */
-.login-input.valid {
-  border-color: green;
-}
-
-.login-input.invalid {
-  border-color: red;
-  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
-}
-
-/* Account Overview Section */
-.account-overview {
-  padding: 2.5rem;
-  background-color: var(--background-color-accent);
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  max-width: 800px;
-  margin: 2rem auto;
-}
-
-.greeting-message {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-}
-
-.balance-container {
-  position: relative;
-  margin-bottom: 2.5rem;
-  background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
-  border-radius: 12px;
-  padding: 1.5rem;
-  color: #fff;
-}
-
-.balance-display {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-}
-
-.currency-switcher {
-  margin-top: 1rem;
-}
-
-.currency-switcher label {
-  font-size: 1.1rem;
-  margin-right: 0.5rem;
-  color: #34495e;
-}
-
-#currency-select {
-  font-size: 1rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #ecf0f1;
-  cursor: pointer;
-}
-
-#currency-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-.balance-tooltip {
-  position: absolute;
-  bottom: -2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 0.75rem;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  white-space: nowrap;
-}
-
-.balance-container:hover .balance-tooltip {
-  opacity: 1;
-}
-
-/* Transactions List */
-.transactions-container {
-  margin-top: 2.5rem;
-  text-align: left;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-#search-bar {
-  margin-bottom: 1.5rem;
-  padding: 0.75rem;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-
-#search-bar:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-.filter-container {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.filter-container label {
-  font-size: 0.95rem;
-  color: #2c3e50;
-}
-
-.filter-container input,
-.filter-container select {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  background-color: #fff;
-  transition: border-color 0.3s ease;
-}
-
-.filter-container input:focus,
-.filter-container select:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-/* Scrollable table */
-.transaction-list-wrapper {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.transaction-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.transaction-table th,
-.transaction-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 1rem;
-}
-
-.transaction-table th {
-  background-color: #f1f1f1;
-  font-weight: bold;
-  color: #2c3e50;
-  text-transform: uppercase;
-}
-
-.transaction-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.transaction-table tbody tr:hover {
-  background-color: #e9e9e9;
-  cursor: pointer;
+/* Navbar Container */
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   transition: background-color 0.3s ease;
+  border-radius: 8px;
 }
 
-.transaction-amount {
-  font-weight: bold;
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.navbar-logo h1 {
+  font-size: 1.5rem;
   color: #333;
 }
 
-.transaction-deposit {
-  color: #27ae60;
+.navbar-actions {
+  display: flex;
+  gap: 15px;
 }
 
-.transaction-withdrawal {
-  color: #e74c3c;
+/* Hamburger Icon */
+.hamburger-icon {
+  font-size: 1.75rem;
+  cursor: pointer;
+  display: none;
+  transition: color 0.3s ease;
 }
 
-/* Icons */
-.transaction-icon {
-  margin-right: 0.5rem;
-  vertical-align: middle;
+.hamburger-icon:hover {
+  color: #4caf50;
 }
 
-/* Actions Section Styling */
-.actions-section {
-  padding: 2rem;
-  text-align: center;
-  margin-top: 2rem;
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  right: -250px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease;
+  z-index: 999; /* To ensure it's above other content */
 }
 
-.common-actions,
-.advanced-actions {
-  margin-bottom: 2rem;
+.sidebar.open {
+  right: 0;
+}
+
+.sidebar-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .action-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  margin: 0.5rem;
-  font-weight: bold;
-}
-
-.action-btn i {
-  margin-right: 0.5rem;
-}
-
-.transfer-btn {
-  background-color: #3498db;
-  color: white;
-}
-
-.transfer-btn:hover {
-  background-color: #2980b9;
-}
-
-.loan-btn {
-  background-color: #27ae60;
-  color: white;
-}
-
-.loan-btn:hover {
-  background-color: #229954;
-}
-
-.close-account-btn {
-  background-color: #e74c3c;
-  color: white;
-}
-
-.close-account-btn:hover {
-  background-color: #c0392b;
-}
-
-.action-item {
-  position: relative;
-  display: inline-block;
-}
-
-/* Modal General Styles */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.5s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal-content {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  position: relative;
-  animation: slideIn 0.3s;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.modal-steps {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  gap: 10px;
-}
-
-.step {
-  background-color: #f1f1f1;
-  padding: 0.5rem;
-  border-radius: 5px;
-  font-size: 0.85rem;
-  color: #555;
-}
-
-#transfer-form,
-#loan-form,
-#close-account-form {
-  display: flex;
-  flex-direction: column;
-}
-
-#transfer-form label,
-#loan-form label,
-#close-account-form label {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-}
-
-#transfer-form input,
-#loan-form input,
-#close-account-form input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  outline: none;
-}
-
-#transfer-form input:focus,
-#loan-form input:focus,
-#close-account-form input:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-}
-
-#transfer-form input::placeholder {
-  color: #bdc3c7;
-}
-
-.modal-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
   cursor: pointer;
-  margin-top: 1rem;
-  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.modal-btn:hover {
-  background-color: #2980b9;
+.theme-toggle {
+  background-color: #f4f4f4;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.modal-btn:disabled {
-  background-color: #bdc3c7;
+.theme-toggle:hover {
+  background-color: #e1e1e1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Error message */
-.error-message {
-  color: red;
-  font-size: 0.85rem;
-  display: none;
-  margin-top: 0.5rem;
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Mobile: Small screens (max-width: 576px) */
-@media (max-width: 36rem) {
-  /* ~576px */
-  .navbar {
-    padding: 1rem;
-  }
+.logout-button:hover {
+  background-color: #d32f2f;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-  .navbar-links {
-    display: none; /* Hide links on small screens */
-    flex-direction: column;
-    background-color: #004080;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-  }
+/* Sidebar Toggle Button (Hamburger Icon) */
+.sidebar-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+}
 
-  .navbar-links.active {
-    display: flex; /* Show links when active */
-  }
+.sidebar-toggle i {
+  font-size: 24px;
+  pointer-events: none;
+}
 
-  .hamburger-icon {
-    display: block; /* Show hamburger icon */
-  }
+/* Sidebar Close Button */
+.sidebar-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
 
-  /* Navbar Actions inside collapsible menu */
-  .theme-toggle,
-  .logout-button {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    width: 100%; /* Full width inside the collapsible menu */
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* Dark Mode Styles (Optional, toggled via JavaScript) */
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
 
-  #breadcrumb {
-    padding: 0.5rem;
-    font-size: 0.8rem;
-  }
+body.dark-mode .navbar {
+  background-color: #333;
+}
 
+body.dark-mode .navbar-logo h1,
+body.dark-mode .nav-item a,
+body.dark-mode .theme-toggle {
+  color: #fff;
+}
+
+body.dark-mode .navbar-logo img {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1px;
+}
+
+body.dark-mode .logout-button {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Media Queries */
+
+/* Small Devices - Mobile Portrait (max-width: 576px) */
+@media (max-width: 576px) {
   main {
-    padding: 1rem;
+    padding: 10px;
   }
 
-  /* Buttons and other interactive elements */
-  button {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  h1,
-  h2,
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  p,
-  a {
-    font-size: 0.9rem;
-  }
-
-  .login-container {
-    padding: 1rem;
-    justify-content: flex-start;
+  /* Stack the navbar content vertically */
+  .navbar-content {
+    flex-direction: column;
     align-items: flex-start;
-    min-height: 100vh;
+  }
+
+  /* Smaller logo for mobile */
+  .navbar-logo img {
+    width: 30px;
+  }
+
+  .navbar-logo h1 {
+    font-size: 1.25rem;
   }
 
   .login-card {
-    max-width: 100%;
-    padding: 1.5rem;
-    border-radius: 10px;
+    padding: 20px;
   }
 
-  .login-heading {
-    font-size: 1.5rem;
-  }
-
+  /* Reduce form field padding */
   .login-input {
-    padding: 0.75rem;
+    padding: 10px;
   }
 
-  .remember-me {
-    font-size: 0.85rem;
-  }
-
-  .floating-label {
-    font-size: 0.85rem;
-  }
-
-  .account-overview {
-    padding: 1.5rem;
-    margin: 1.5rem 1rem;
-  }
-
-  .greeting-message {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-
-  .balance-display {
-    font-size: 2rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-
-  .currency-switcher label {
-    font-size: 1rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-
-  #currency-select {
-    font-size: 0.9rem;
-    padding: 0.4rem;
-  }
-
-  .balance-tooltip {
-    font-size: 0.8rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-
-  .transactions-container {
-    padding: 0.5rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-
-  #search-bar {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .filter-container {
-    flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-  }
-
-  .filter-container label {
-    font-size: 0.95rem;
-    width: 100%;
-  }
-
-  .filter-container input,
-  .filter-container select {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-    width: 100%;
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-
-  .transaction-table th,
-  .transaction-table td {
-    padding: 0.75rem;
-    font-size: 0.9rem;
-  }
-
-  .transaction-table th,
-  .transaction-table td {
-    text-align: center;
-  }
-
-  .transaction-amount {
-    font-size: 0.95rem;
-  }
-
+  /* Full-width buttons */
+  .login-button,
   .action-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1rem;
-    flex-direction: column;
     width: 100%;
-    max-width: 300px;
   }
 
-  .action-btn i {
-    margin: 0;
-    margin-bottom: 0.5rem;
+  /* Sidebar size for small screens */
+  .sidebar {
+    width: 200px;
   }
 
-  .actions-section {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .tooltip {
-    display: none;
-  }
-
-  .modal-content {
-    width: 90%;
-    padding: 1.5rem;
-  }
-
-  .modal-btn {
-    padding: 0.65rem 1.2rem;
-    font-size: 0.9rem;
-  }
-
-  #transfer-form input,
-  #loan-form input,
-  #close-account-form input {
-    padding: 0.65rem;
-    font-size: 0.9rem;
-  }
-
-  .step {
-    font-size: 0.8rem;
-    padding: 0.4rem;
+  .sidebar-toggle {
+    top: 10px;
+    right: 10px;
   }
 }
 
-/* Tablets: Medium screens (min-width: 576px and max-width: 991px) */
-@media (min-width: 36rem) and (max-width: 62rem) {
-  /* ~576px to 991px */
-  /* Navbar styling */
-  .navbar {
-    padding: 1rem 1.5rem;
+/* Medium Devices - Tablets (min-width: 576px and max-width: 991px) */
+@media (min-width: 576px) and (max-width: 991px) {
+  /* Body padding for medium screens */
+  main {
+    padding: 15px;
+  }
+
+  .navbar-content {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .navbar-logo img {
+    width: 35px;
   }
 
   .navbar-logo h1 {
     font-size: 1.5rem;
   }
 
-  .navbar-links {
-    gap: 1.5rem;
-  }
-
-  .nav-item {
-    margin-bottom: 0;
-  }
-
-  .navbar-actions {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .navbar-logo {
-    padding: 0.5rem 0.8rem;
-  }
-
-  .theme-toggle,
-  .logout-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-  }
-
-  #breadcrumb {
-    padding: 0.75rem;
-    font-size: 0.85rem;
-  }
-
-  main {
-    padding: 1.5rem;
-  }
-
-  section {
-    margin: 1.5rem 0;
-  }
-
-  h1,
-  h2,
-  h3 {
-    font-size: 1.8rem;
-  }
-
-  p,
-  a {
-    font-size: 1rem;
-  }
-
-  .login-container {
-    padding: 1.5rem;
-  }
-
   .login-card {
-    max-width: 90%;
-  }
-
-  .login-heading {
-    font-size: 1.6rem;
+    max-width: 350px;
+    padding: 30px;
   }
 
   .login-input {
-    padding: 0.8rem;
+    padding: 12px;
   }
 
-  .login-button {
-    padding: 0.75rem 1.3rem;
-  }
-
-  .remember-me {
-    font-size: 0.9rem;
-  }
-
-  .floating-label {
-    font-size: 0.9rem;
-  }
-
-  .account-overview {
-    padding: 2rem;
-    margin: 2rem auto;
-  }
-
-  .greeting-message {
-    font-size: 1.8rem;
-  }
-
-  .balance-display {
-    font-size: 2.2rem;
-  }
-
-  .currency-switcher label {
-    font-size: 1rem;
-  }
-
-  #currency-select {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  .balance-tooltip {
-    font-size: 0.85rem;
-  }
-
-  .transactions-container {
-    padding: 1rem;
-  }
-
-  #search-bar {
-    padding: 0.6rem;
-    margin-bottom: 1.25rem;
-    font-size: 0.95rem;
-  }
-
-  .filter-container {
-    gap: 0.75rem;
-  }
-
-  .filter-container label,
-  .filter-container input,
-  .filter-container select {
-    font-size: 0.95rem;
-    padding: 0.45rem;
-  }
-
-  .transaction-table th,
-  .transaction-table td {
-    padding: 0.85rem;
-    font-size: 0.95rem;
-  }
-
-  .transaction-amount {
-    font-size: 1.05rem;
-  }
-
+  .login-button,
   .action-btn {
-    font-size: 0.95rem;
-    padding: 0.7rem 1.2rem;
+    padding: 12px;
   }
 
-  .actions-section {
-    padding: 1.5rem;
+  /* Sidebar size for tablets */
+  .sidebar {
+    width: 220px;
   }
 
-  .tooltip {
-    display: block;
-    font-size: 0.8rem;
-    bottom: -35px;
+  .sidebar-toggle {
+    top: 15px;
+    right: 15px;
   }
 }
 
-/* Desktop: Large screens (min-width: 991px) */
-@media (min-width: 62rem) {
-  /* ~991px */
-  /* Navbar styling */
-  .navbar {
-    padding: 1rem 2rem;
-  }
-
-  .navbar-links {
-    gap: 2rem;
-  }
-
-  #breadcrumb {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
+/* Large Devices - Laptops and Desktops (min-width: 992px) */
+@media (min-width: 992px) {
   main {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 20px;
   }
 
-  section {
-    margin: 2rem 0;
+  /* Align navbar content in row */
+  .navbar-content {
+    flex-direction: row;
+    justify-content: space-between;
   }
 
-  h1 {
-    font-size: 2.5rem;
+  /* Large logo */
+  .navbar-logo img {
+    width: 40px;
   }
 
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
+  .navbar-logo h1 {
     font-size: 1.75rem;
   }
 
-  p,
-  a {
-    font-size: 1.1rem;
-  }
-
-  button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .login-container {
-    padding: 2rem;
-  }
-
+  /* Larger login card with ample padding */
   .login-card {
     max-width: 400px;
+    padding: 40px;
   }
 
-  .login-heading {
-    font-size: 1.8rem;
-  }
-
-  .login-input {
-    padding: 0.85rem;
-  }
-
-  .login-button {
-    padding: 0.85rem 1.5rem;
-  }
-
-  .remember-me {
-    font-size: 0.9rem;
-  }
-
-  .floating-label {
-    font-size: 1rem;
-  }
-
-  .account-overview {
-    padding: 2.5rem;
-    max-width: 800px;
-    margin: 2rem auto;
-  }
-
-  .greeting-message {
-    font-size: 2rem;
-  }
-
-  .balance-display {
-    font-size: 2.5rem;
-  }
-
-  .currency-switcher label {
-    font-size: 1.1rem;
-  }
-
-  #currency-select {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  .balance-tooltip {
-    font-size: 0.9rem;
-  }
-
-  .transactions-container {
-    padding: 1.5rem;
-  }
-
-  #search-bar {
-    padding: 0.75rem;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-  }
-
-  .filter-container {
-    gap: 1rem;
-  }
-
-  .filter-container label,
-  .filter-container input,
-  .filter-container select {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  .transaction-table th,
-  .transaction-table td {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  .transaction-amount {
-    font-size: 1.2rem;
-  }
-
+  /* Keep button size larger */
+  .login-button,
   .action-btn {
-    font-size: 1rem;
-    padding: 0.75rem 1.5rem;
+    padding: 15px;
   }
 
-  .actions-section {
-    padding: 2rem;
+  /* Larger sidebar for desktop */
+  .sidebar {
+    width: 250px;
   }
 
-  .tooltip {
-    font-size: 0.85rem;
-  }
-
-  .modal-content {
-    width: 80%;
-    padding: 2rem;
-  }
-
-  .modal-btn {
-    padding: 0.75rem 1.4rem;
-    font-size: 1rem;
-  }
-
-  #transfer-form input,
-  #loan-form input,
-  #close-account-form input {
-    padding: 0.7rem;
-    font-size: 1rem;
-  }
-
-  .step {
-    font-size: 0.85rem;
-    padding: 0.5rem;
-  }
-
-  .modal-content {
-    width: 400px;
-    padding: 2.5rem;
-  }
-
-  .modal-btn {
-    padding: 0.85rem 1.6rem;
-    font-size: 1.1rem;
-  }
-
-  #transfer-form input,
-  #loan-form input,
-  #close-account-form input {
-    padding: 0.75rem;
-    font-size: 1.1rem;
-  }
-
-  .step {
-    font-size: 0.9rem;
-    padding: 0.6rem;
+  .sidebar-toggle {
+    top: 20px;
+    right: 20px;
   }
 }
