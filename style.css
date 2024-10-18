@@ -459,6 +459,24 @@ section {
   padding: 15px;
 }
 
+.balance-display i {
+  color: #4caf50;
+  margin-right: 8px;
+}
+
+.transaction-table td i {
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+.text-success {
+  color: #4caf50; /* Green for deposits */
+}
+
+.text-danger {
+  color: #f44336; /* Red for withdrawals */
+}
+
 /* Dark Mode Styles (Optional, toggled via JavaScript) */
 body.dark-mode {
   background-color: #121212;

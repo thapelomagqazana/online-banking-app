@@ -19,6 +19,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -30,11 +36,6 @@
           <img src="./images/savings.png" alt="Imali X Logo" />
           <h1>Imali X</h1>
         </div>
-
-        <!-- Action Buttons: Dark Mode and Logout -->
-        <!-- <div id="navbar-actions" class="navbar-actions">
-          <h1 class="login-btn">Login</h1>
-        </div> -->
 
         <!-- Sidebar for Dark Mode and Logout -->
         <div id="sidebar" class="sidebar">
@@ -109,6 +110,7 @@
           <div class="balance-container neumorphic-card">
             <div class="balance-display">
               <h1 class="balance">
+                <i class="fas fa-wallet"></i>
                 Balance:
                 <span id="balance-amount" class="dynamic-balance"
                   >R25,000.00</span
@@ -139,92 +141,12 @@
                   </tr>
                 </thead>
                 <tbody id="transaction-list">
-                  <tr>
-                    <td>2024-10-09</td>
-                    <td>Deposit</td>
-                    <td>R2,000.00</td>
-                  </tr>
-                  <tr>
-                    <td>2024-10-08</td>
-                    <td>Withdrawal</td>
-                    <td>R500.00</td>
-                  </tr>
-                  <tr>
-                    <td>2024-10-07</td>
-                    <td>Deposit</td>
-                    <td>R3,000.00</td>
-                  </tr>
+                  <!-- List will be rendered here -->
                 </tbody>
               </table>
             </div>
           </div>
         </section>
-        <!-- <section id="accounts" class="account-overview">
-          <h2 class="greeting-message" id="greeting-message"></h2>
-
-          <div class="balance-container">
-            <div class="balance-display">
-              <h1 class="balance">
-                Balance:
-                <span id="balance-amount"></span>
-              </h1>
-              <div class="currency-switcher">
-                <label for="currency-select">Currency:</label>
-                <select id="currency-select">
-                  <option value="ZAR">ZAR</option>
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                </select>
-              </div>
-            </div>
-          </div> -->
-
-        <!-- Transactions List -->
-        <!-- <div class="transactions-container">
-            <h3>Your Transactions</h3> -->
-
-        <!-- Search Bar -->
-        <!-- <input
-              type="text"
-              id="search-bar"
-              placeholder="Search transactions..."
-            /> -->
-
-        <!-- Filter Options -->
-        <!-- <div class="filter-container">
-              <label for="transaction-type">Type:</label>
-              <select id="transaction-type">
-                <option value="all">All</option>
-                <option value="deposit">Deposits</option>
-                <option value="withdrawal">Withdrawals</option>
-              </select>
-
-              <label for="date-range">Date Range:</label>
-              <input type="date" id="start-date" /> to
-              <input type="date" id="end-date" />
-
-              <label for="amount-range">Amount Range:</label>
-              <input type="number" id="min-amount" placeholder="Min" /> to
-              <input type="number" id="max-amount" placeholder="Max" />
-            </div> -->
-
-        <!-- Scrollable Table -->
-        <!-- <div class="transaction-list-wrapper">
-              <table class="transaction-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody id="transaction-list"> -->
-        <!-- Transactions will be dynamically rendered here -->
-        <!-- </tbody>
-              </table>
-            </div>
-          </div>
-        </section>  -->
 
         <section id="actions" class="actions-section">
           <div class="common-actions">

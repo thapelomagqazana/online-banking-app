@@ -186,11 +186,22 @@ document.addEventListener("DOMContentLoaded", () => {
     transactionsList.innerHTML = "";
 
     transactions.forEach((transaction) => {
-      const type = transaction.amount > 0 ? "Deposit" : "Withdrawal";
+      let type;
+      let icon;
+      if (transaction.amount > 0) {
+        type = "Deposit";
+        icon = "fa-arrow-down text-success";
+      } else {
+        type = "Withdrawal";
+        icon = "fa-arrow-up text-danger";
+      }
       const transactionDetails = `
         <tr>
             <td>${transaction.date}</td>
-            <td>${type}</td>
+            <td>
+              <i class="fas ${icon}"></i>
+              ${type}
+            </td>
             <td>${currencyCalculation(
               Math.abs(transaction.amount),
               selectedCurrency
