@@ -477,6 +477,160 @@ section {
   color: #f44336; /* Red for withdrawals */
 }
 
+/* Quick Action Buttons */
+.quick-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.action-btn1 {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-btn1:hover {
+  background-color: #45a045;
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.danger-btn {
+  background-color: #f44336;
+}
+
+.danger-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Modals */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  overflow: auto; /* Enable scrolling if modal content is tall */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-in-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Close Button Styles */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #f44336; /* Danger color for close button hover */
+}
+
+/* Modal Heading */
+.modal-content h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Modal Form */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.modal-content input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f7f8fa;
+  transition: border-color 0.3s ease;
+}
+
+.modal-content input:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+/* Modal Buttons */
+.modal-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-btn:hover {
+  background-color: #45a045;
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.modal .danger-btn {
+  background-color: #f44336;
+}
+
+.modal .danger-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Confirmation Text for Closing Account */
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* Dark Mode Styles (Optional, toggled via JavaScript) */
 body.dark-mode {
   background-color: #121212;
@@ -593,6 +747,23 @@ body.dark-mode .logout-button {
     font-size: 0.85rem;
     padding: 8px;
   }
+
+  .quick-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-btn,
+  .danger-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.875rem;
+  }
+
+  .modal-content {
+    width: 90%;
+    margin: 30% auto; /* For smaller devices, position modals better */
+  }
 }
 
 /* Medium Devices - Tablets (min-width: 576px and max-width: 991px) */
@@ -659,6 +830,22 @@ body.dark-mode .logout-button {
   .transaction-table td {
     font-size: 0.95rem;
     padding: 10px;
+  }
+
+  .quick-actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .action-btn,
+  .danger-btn {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    width: 80%;
+    margin: 15% auto;
   }
 }
 
@@ -731,5 +918,21 @@ body.dark-mode .logout-button {
   .transaction-table td {
     font-size: 1rem;
     padding: 12px;
+  }
+
+  .quick-actions {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .action-btn,
+  .danger-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .modal-content {
+    width: 400px;
+    margin: 10% auto;
   }
 }

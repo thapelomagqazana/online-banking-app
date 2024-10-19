@@ -153,6 +153,47 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.classList.toggle("open");
   });
 
+  // Function to open modals
+  const openModal = (modalId) => {
+    const modal = document.getElementById(modalId);
+    modal.style.display = "block";
+  };
+
+  // Function to close modals
+  const closeModal = (modalId) => {
+    const modal = document.getElementById(modalId);
+    modal.style.display = "none";
+  };
+
+  // Event listeners for opening modals
+  document
+    .getElementById("transfer-btn")
+    .addEventListener("click", () => openModal("transfer-modal"));
+  document
+    .getElementById("loan-btn")
+    .addEventListener("click", () => openModal("loan-modal"));
+  document
+    .getElementById("close-account-btn")
+    .addEventListener("click", () => openModal("close-account-modal"));
+
+  // Event listeners for closing modals
+  document.querySelectorAll(".close-btn").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const modal = e.target.closest(".modal");
+      modal.style.display = "none";
+    });
+  });
+
+  // Close modals when clicking outside
+  window.addEventListener("click", (event) => {
+    const modals = document.querySelectorAll(".modal");
+    modals.forEach((modal) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  });
+
   // Toggle Pin Visibility
   togglePin.addEventListener("click", () => {
     if (pinInput.type === "password") {
