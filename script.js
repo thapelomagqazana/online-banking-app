@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Data
-  const accounts = [
+  const defaultAccounts = [
     {
       owner: "Thapelo Skhona Magqazana",
       movements: [
@@ -64,6 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
+  // Load accounts from localStorage or defaultAccounts
+  const accounts =
+    JSON.parse(localStorage.getItem("accounts")) || defaultAccounts;
+
   // Element references
   const loginForm = document.getElementById("login-form");
   const loginContainer = document.querySelector(".login-container");
@@ -76,6 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
   const sidebarToggle = document.getElementById("sidebar-toggle");
   const sidebarContent = document.querySelector(".sidebar-content");
+
+  // Persist login state (if logged in previously)
+  const persistLogin = localStorage.getItem("currentAccount");
+  if (persistLogin) {
+    currentAccount = JSON.parse(persistLogin);
+    loginContainer.style.display = "none";
+    displayHomePage("block");
+    greetUser(currentAccount.owner);
+    updateBalanceDisplay();
+    renderTransactions(currentAccount.movements, selectedCurrency);
+    updateSideBar();
+  }
 
   // Auto-fill username if 'Remember Me' was checked
   if (localStorage.getItem("rememberMe") === "true") {
@@ -96,23 +112,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   createUsernames(accounts);
 
-  const showError = (element, message, stateOfVisibility) => {
+  // Helper function to display error messages
+  const showError = (element, message = "", visible = false) => {
     const errorMessage = element.querySelector(".error-message");
     errorMessage.textContent = message;
-    errorMessage.style.visibility = stateOfVisibility;
+    errorMessage.style.visibility = visible ? "visible" : "hidden";
   };
 
-  const greetMessageBasedOnTimeOfDay = (name) => {
-    const greetingMessage = document.getElementById("greeting-message");
-    const hours = new Date().getHours();
+  // Function to update balance in selected currency
+  const updateBalanceDisplay = () => {
+    balanceAmount.textContent = currencyCalculation(
+      currentAccount.balance,
+      selectedCurrency
+    );
+  };
 
-    if (hours < 12) {
-      greetingMessage.textContent = `Good Morning, ${name}`;
-    } else if (hours < 18) {
-      greetingMessage.textContent = `Good Afternoon, ${name}`;
-    } else {
-      greetingMessage.textContent = `Good Evening, ${name}`;
-    }
+  // Update accounts in localStorage
+  const updateAccountsStorage = () => {
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+  };
+
+  // Greeting message based on time of day
+  const greetUser = (name) => {
+    const greetingMessage = document.getElementById("greeting-message");
+    const hour = new Date().getHours();
+    const greeting =
+      hour < 12
+        ? `Good Morning, ${name}`
+        : hour < 18
+        ? `Good Afternoon, ${name}`
+        : `Good Evening, ${name}`;
+    greetingMessage.textContent = greeting;
   };
 
   const updateSideBar = () => {
@@ -142,6 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("darkMode") === "enabled") {
       document.body.classList.add("dark-mode");
     }
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("currentAccount");
+      location.reload(); // Reload to return to login page
+    });
   };
 
   const displayHomePage = (state) => {
@@ -254,6 +289,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Helper function to get today's date
+  const getCurrentDate = () => new Date().toISOString().slice(0, 10);
+
   let currentAccount;
   let selectedCurrency = "ZAR";
   // Currency Switcher
@@ -261,10 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   currencySelect.addEventListener("change", function () {
     selectedCurrency = this.value;
-    balanceAmount.textContent = currencyCalculation(
-      currentAccount.balance,
-      selectedCurrency
-    );
+    updateBalanceDisplay();
 
     // Re-render the transaction list
     renderTransactions(currentAccount.movements, selectedCurrency);
@@ -277,20 +312,20 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault(); // Prevent form submission
 
     // Clear previous errors
-    showError(loginForm, "", "hidden");
+    showError(loginForm);
 
     const username = usernameInput.value.trim().toLowerCase();
     const pin = pinInput.value.trim();
 
     // Validate Username
     if (username === "") {
-      showError(loginForm, "Please enter a valid username.", "visible");
+      showError(loginForm, "Please enter a valid username.", true);
       return;
     }
 
     // Validate Pin
     if (pin.length < 4) {
-      showError(loginForm, "Please enter a valid pin.", "visible");
+      showError(loginForm, "Please enter a valid pin.", true);
       return;
     }
 
@@ -308,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     if (!currentAccount) {
-      showError(loginForm, "Account does not exist.", "visible");
+      showError(loginForm, "Account does not exist.", true);
       return;
     }
 
@@ -316,11 +351,113 @@ document.addEventListener("DOMContentLoaded", () => {
     loginContainer.style.display = "none"; // Hide login form
     updateSideBar(); // Update navbar after login
     displayHomePage("block"); // Show homepage
-    greetMessageBasedOnTimeOfDay(currentAccount.owner);
-    balanceAmount.textContent = currencyCalculation(
-      currentAccount.balance,
-      selectedCurrency
-    );
+    greetUser(currentAccount.owner);
+    updateBalanceDisplay();
     renderTransactions(currentAccount.movements, selectedCurrency);
+
+    // Save login state to localStorage
+    localStorage.setItem("currentAccount", JSON.stringify(currentAccount));
+  });
+
+  const transferForm = document.getElementById("transfer-form");
+
+  transferForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Clear previous errors
+    showError(transferForm);
+    const recipientInput = document
+      .getElementById("recipient")
+      .value.trim()
+      .toLowerCase();
+    const amount = Number(
+      document.getElementById("transfer-amount").value.trim()
+    );
+
+    const recipient = accounts.find(
+      (account) => account.username === recipientInput
+    );
+
+    if (!recipient) {
+      showError(transferForm, "The recipient's username does not exist", true);
+      return;
+    } else if (amount <= 0 || amount > recipient.balance) {
+      showError(transferForm, "Invalid amount", true);
+      return;
+    } else {
+      recipient.balance += amount;
+      currentAccount.balance -= amount;
+      currentAccount.movements.push({
+        amount: -amount,
+        date: getCurrentDate(),
+      });
+      closeModal("transfer-modal");
+
+      updateBalanceDisplay();
+
+      renderTransactions(currentAccount.movements, selectedCurrency);
+    }
+  });
+
+  const loanForm = document.getElementById("loan-modal");
+
+  loanForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Clear previous errors
+    showError(transferForm);
+    const loanAmount = Number(
+      document.getElementById("loan-amount").value.trim()
+    );
+
+    if (!loanAmount) {
+      showError(loanForm, "Invalid amount", true);
+      return;
+    } else {
+      currentAccount.balance += loanAmount;
+      currentAccount.movements.push({
+        amount: loanAmount,
+        date: getCurrentDate(),
+      });
+
+      closeModal("loan-modal");
+
+      updateBalanceDisplay();
+
+      renderTransactions(currentAccount.movements, selectedCurrency);
+    }
+  });
+
+  const closeAccountForm = document.getElementById("close-account-form");
+  // Handle account closure
+  closeAccountForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    showError(closeAccountForm);
+    const username = document
+      .getElementById("closure-username")
+      .value.trim()
+      .toLowerCase();
+    const pin = document.getElementById("closure-pin").value.trim();
+
+    if (
+      username !== currentAccount.username ||
+      pin !== currentAccount.pin.toString()
+    ) {
+      showError(closeAccountForm, "Incorrect credentials", true);
+      return;
+    }
+
+    // Remove account
+    const accountIndex = accounts.findIndex((acc) => acc.username === username);
+    if (accountIndex !== -1) {
+      accounts.splice(accountIndex, 1); // Remove account from array
+      updateAccountsStorage(); // Update localStorage
+
+      // Logout and reset
+      localStorage.removeItem("currentAccount");
+      localStorage.clear();
+      location.reload(); // Reload to login page
+    }
   });
 });
