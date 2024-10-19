@@ -128,6 +128,35 @@
             </div>
           </div>
 
+          <!-- Search Bar -->
+          <input
+            type="text"
+            id="search-bar"
+            placeholder="Search transactions..."
+          />
+
+          <!-- Filter Options -->
+          <div class="filter-container">
+            <label for="transaction-type">Type:</label>
+            <select id="transaction-type">
+              <option value="all">All</option>
+              <option value="deposit">Deposits</option>
+              <option value="withdrawal">Withdrawals</option>
+            </select>
+
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" />
+
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" />
+
+            <label for="min-amount">Min Amount:</label>
+            <input type="number" id="min-amount" placeholder="Min" />
+
+            <label for="max-amount">Max Amount:</label>
+            <input type="number" id="max-amount" placeholder="Max" />
+          </div>
+
           <!-- Recent Transactions List -->
           <div class="transactions-container">
             <h3>Your Transactions</h3>

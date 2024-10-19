@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarToggle = document.getElementById("sidebar-toggle");
   const sidebarContent = document.querySelector(".sidebar-content");
 
+  // localStorage.clear();
+
   // Persist login state (if logged in previously)
   const persistLogin = localStorage.getItem("currentAccount");
   if (persistLogin) {
@@ -143,6 +145,73 @@ document.addEventListener("DOMContentLoaded", () => {
         ? `Good Afternoon, ${name}`
         : `Good Evening, ${name}`;
     greetingMessage.textContent = greeting;
+  };
+
+  // Function to filter transactions
+  const filterTransactions = (transactions, filters) => {
+    return transactions.filter((transaction) => {
+      const transactionDate = new Date(transaction.date);
+      const startDate = filters.startDate ? new Date(filters.startDate) : null;
+      const endDate = filters.endDate ? new Date(filters.endDate) : null;
+      const amount = Math.abs(transaction.amount);
+      const isDeposit = transaction.amount > 0;
+
+      // Filter by transaction type (deposit or withdrawal)
+      if (filters.transactionType !== "all") {
+        if (filters.transactionType === "deposit" && !isDeposit) return false;
+        if (filters.transactionType === "withdrawal" && isDeposit) return false;
+      }
+
+      // Filter by date range
+      if (startDate && transactionDate < startDate) return false;
+      if (endDate && transactionDate > endDate) return false;
+
+      // Filter by amount range
+      if (filters.minAmount && amount < filters.minAmount) return false;
+      if (filters.maxAmount && amount > filters.maxAmount) return false;
+
+      // Filter by search query
+      if (
+        filters.searchQuery &&
+        !transaction.date.includes(filters.searchQuery) &&
+        !String(amount).includes(filters.searchQuery)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  };
+
+  // Function to render filtered transactions
+  const renderFilteredTransactions = () => {
+    const searchQuery = document
+      .getElementById("search-bar")
+      .value.toLowerCase();
+    const transactionType = document.getElementById("transaction-type").value;
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value;
+    const minAmount = document.getElementById("min-amount").value;
+    const maxAmount = document.getElementById("max-amount").value;
+
+    // Define filter object
+    const filters = {
+      searchQuery,
+      transactionType,
+      startDate,
+      endDate,
+      minAmount: minAmount ? parseFloat(minAmount) : null,
+      maxAmount: maxAmount ? parseFloat(maxAmount) : null,
+    };
+
+    // Filter the transactions
+    const filteredTransactions = filterTransactions(
+      currentAccount.movements,
+      filters
+    );
+
+    // Render the filtered transactions
+    renderTransactions(filteredTransactions, selectedCurrency);
   };
 
   const updateSideBar = () => {
@@ -210,6 +279,26 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("close-account-btn")
     .addEventListener("click", () => openModal("close-account-modal"));
+
+  // Event Listeners for filters and search bar
+  document
+    .getElementById("search-bar")
+    .addEventListener("input", renderFilteredTransactions);
+  document
+    .getElementById("transaction-type")
+    .addEventListener("change", renderFilteredTransactions);
+  document
+    .getElementById("start-date")
+    .addEventListener("change", renderFilteredTransactions);
+  document
+    .getElementById("end-date")
+    .addEventListener("change", renderFilteredTransactions);
+  document
+    .getElementById("min-amount")
+    .addEventListener("input", renderFilteredTransactions);
+  document
+    .getElementById("max-amount")
+    .addEventListener("input", renderFilteredTransactions);
 
   // Event listeners for closing modals
   document.querySelectorAll(".close-btn").forEach((button) => {
@@ -302,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateBalanceDisplay();
 
     // Re-render the transaction list
-    renderTransactions(currentAccount.movements, selectedCurrency);
+    renderFilteredTransactions();
   });
 
   displayHomePage("none");
@@ -353,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
     displayHomePage("block"); // Show homepage
     greetUser(currentAccount.owner);
     updateBalanceDisplay();
-    renderTransactions(currentAccount.movements, selectedCurrency);
+    renderFilteredTransactions();
 
     // Save login state to localStorage
     localStorage.setItem("currentAccount", JSON.stringify(currentAccount));

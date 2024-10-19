@@ -631,6 +631,59 @@ section {
   text-align: center;
 }
 
+/* General Container for Filters and Search */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.filter-container label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-right: 5px;
+  color: #555;
+}
+
+.filter-container input,
+.filter-container select {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f7f8fa;
+  transition: border-color 0.3s ease;
+}
+
+.filter-container input:focus,
+.filter-container select:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+.filter-container input[type="number"],
+.filter-container input[type="date"] {
+  width: 150px;
+}
+
+#search-bar {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+#search-bar:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
 /* Dark Mode Styles (Optional, toggled via JavaScript) */
 body.dark-mode {
   background-color: #121212;
@@ -763,6 +816,20 @@ body.dark-mode .logout-button {
   .modal-content {
     width: 90%;
     margin: 30% auto; /* For smaller devices, position modals better */
+  }
+
+  .filter-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-container input,
+  .filter-container select {
+    width: 100%; /* Full width on small screens */
+  }
+
+  #search-bar {
+    width: 100%;
   }
 }
 
