@@ -281,16 +281,69 @@ section {
   gap: 15px;
 }
 
-/* Hamburger Icon */
-.hamburger-icon {
-  font-size: 1.75rem;
+.notification-icon {
+  position: relative;
+  display: inline-block;
+  margin-right: 80px;
   cursor: pointer;
-  display: none;
-  transition: color 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.hamburger-icon:hover {
+.notification-icon i {
+  font-size: 24px;
+  color: #333;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.notification-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(244, 67, 54, 0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(244, 67, 54, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(244, 67, 54, 0.4);
+  }
+}
+
+/* Apply pulse animation */
+.pulse-animation {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Notification Count Badge */
+.notification-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #f44336;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the icon */
+.notification-icon:hover i {
   color: #4caf50;
+  transform: scale(1.2);
+}
+
+.notification-icon:hover .notification-count {
+  background-color: #e53935;
 }
 
 /* Sidebar Styles */
@@ -1318,6 +1371,51 @@ body.dark-mode .fab-action-label {
 body.dark-mode .action-btn1:hover .fab-action-label {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Dark mode for the notification icon */
+body.dark-mode .notification-icon i {
+  color: #f5f5f5;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .notification-icon:hover i {
+  color: #81c784; /* Softer green for dark mode */
+}
+
+body.dark-mode .notification-count {
+  background-color: #f44336;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .notification-icon:hover .notification-count {
+  background-color: #e53935;
+}
+
+/* Dark mode pulse animation */
+body.dark-mode .pulse-animation {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-dark {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(129, 199, 132, 0.4); /* Softer green glow */
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(129, 199, 132, 0.6); /* Softer green glow */
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(129, 199, 132, 0.4);
+  }
+}
+
+/* Ensure dark mode pulse animation applies */
+body.dark-mode .pulse-animation {
+  animation-name: pulse-dark;
 }
 
 /* Media Queries */

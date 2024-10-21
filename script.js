@@ -81,12 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
   const sidebarToggle = document.getElementById("sidebar-toggle");
   const sidebarContent = document.querySelector(".sidebar-content");
+  const notificationContainer = document.querySelector(".notification-icon");
 
-  // localStorage.clear();
+  notificationContainer.style.display = "none";
 
   // Handle login success
   const loginSuccess = () => {
     loginContainer.style.display = "none";
+    notificationContainer.style.display = "block";
     displayHomePage("block");
     greetUser(currentAccount.owner);
     updateBalanceDisplay();
@@ -480,6 +482,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Simulate receiving a new notification
+  const triggerNotification = () => {
+    const notificationIcon = document.querySelector(".notification-icon i");
+    const notificationCount = document.querySelector(".notification-count");
+
+    // Increase the notification count (for simulation purposes)
+    let count = parseInt(notificationCount.textContent) || 0;
+    count++;
+    notificationCount.textContent = count;
+
+    // Add pulse animation class
+    notificationIcon.classList.add("pulse-animation");
+
+    // Optionally remove the pulse animation after a certain time
+    setTimeout(() => {
+      notificationIcon.classList.remove("pulse-animation");
+    }, 5000); // Pulse for 5 seconds
+  };
+
   let selectedCurrency = "ZAR";
   // Currency Switcher
   const currencySelect = document.getElementById("currency-select");
@@ -584,6 +605,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateBalanceDisplay();
 
       renderFilteredTransactions();
+      triggerNotification();
 
       calculateFinancialSummary(currentAccount, selectedCurrency);
       drawChart();
@@ -614,6 +636,7 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal("loan-modal");
 
       updateBalanceDisplay();
+      triggerNotification();
 
       renderFilteredTransactions();
 
