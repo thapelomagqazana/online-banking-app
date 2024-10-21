@@ -10,9 +10,78 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Light Mode Variables */
+:root {
+  --background-color: #e0f7fa;
+  --secondary-background-color: #80deea;
+  --text-color: #333;
+  --card-background-color: #fff;
+  --card-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1), -5px -5px 20px #ffffff;
+}
+
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+/* Light Mode Variables */
+:root {
+  --background-color: #e0f7fa;
+  --secondary-background-color: #80deea;
+  --text-color: #333;
+  --card-background-color: #fff;
+  --card-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1), -5px -5px 20px #ffffff;
+  --input-background-color: #f7f8fa;
+  --label-color: #888;
+  --hover-color: #45a045;
+  --box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 12px #ffffff;
+  --focus-shadow: rgba(76, 175, 80, 0.5);
+  --error-color: red;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+  --background-color: #121212;
+  --secondary-background-color: #1e1e1e;
+  --text-color: #f0f0f0;
+  --card-background-color: #1f1f1f;
+  --card-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5),
+    -5px -5px 20px rgba(0, 0, 0, 0.5);
+  --input-background-color: #2c2c2c;
+  --label-color: #bbb;
+  --hover-color: #388e3c;
+  --box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5),
+    -4px -4px 12px rgba(0, 0, 0, 0.5);
+  --focus-shadow: rgba(76, 175, 80, 0.8);
+  --error-color: #ff6b6b;
+
+  --navbar-bg-color: #333;
+  --navbar-text-color: #f0f0f0;
+  --sidebar-bg-color: #2c2c2c;
+  --sidebar-text-color: #f0f0f0;
+  --hamburger-color: #f0f0f0;
+  --theme-toggle-bg-color: #444;
+  --theme-toggle-text-color: #f0f0f0;
+  --logout-button-bg-color: #e57373;
+  --logout-button-text-color: #ffffff;
+  --sidebar-box-shadow: rgba(0, 0, 0, 0.5);
+  /* --hover-color: #4caf50; */
+}
+
 body {
-  background: linear-gradient(135deg, #e0f7fa, #80deea);
-  color: #333;
+  background: linear-gradient(
+    135deg,
+    var(--background-color),
+    var(--secondary-background-color)
+  );
+  color: var(--text-color);
   margin: 0;
   overflow-x: hidden;
 }
@@ -42,17 +111,17 @@ section {
 
 /* Neumorphic Login Card */
 .login-card {
-  background-color: #ffffff;
+  background-color: var(--card-background-color);
   padding: 2.5rem;
   border-radius: 1rem;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 12px #ffffff;
+  box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
   max-width: 400px;
   width: 100%;
 }
 
 .login-card:hover {
-  box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.1), -6px -6px 18px #ffffff;
+  box-shadow: var(--box-shadow);
 }
 
 /* Login Heading */
@@ -61,7 +130,7 @@ section {
   margin-bottom: 1.5rem;
   font-size: 1.75rem;
   font-weight: 600;
-  color: #4caf50;
+  color: var(--hover-color);
 }
 
 /* Form and Input Styles */
@@ -79,7 +148,7 @@ section {
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background-color: #f7f8fa;
+  background-color: var(--input-background-color);
   border: none;
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05), inset -2px -2px 5px #ffffff;
   font-size: 1rem;
@@ -88,8 +157,8 @@ section {
 }
 
 .login-input:focus {
-  box-shadow: 0px 0px 10px rgba(76, 175, 80, 0.5);
-  border: 1px solid #4caf50;
+  box-shadow: 0px 0px 10px var(--focus-shadow);
+  border: 1px solid var(--hover-color);
 }
 
 /* Floating Labels */
@@ -98,7 +167,7 @@ section {
   top: 12px;
   left: 14px;
   font-size: 1rem;
-  color: #888;
+  color: var(--label-color);
   transition: 0.2s ease all;
 }
 
@@ -107,7 +176,7 @@ section {
   top: -18px;
   left: 14px;
   font-size: 0.875rem;
-  color: #4caf50;
+  color: var(--hover-color);
 }
 
 /* Toggle Password Visibility */
@@ -117,17 +186,17 @@ section {
   right: 10px;
   cursor: pointer;
   font-size: 0.875rem;
-  color: #4caf50;
+  color: var(--hover-color);
   transition: color 0.3s ease;
 }
 
 .toggle-visibility:hover {
-  color: #388e3c;
+  color: var(--hover-color);
 }
 
 /* Error Messages */
 .error-message {
-  color: red;
+  color: var(--error-color);
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
   visibility: hidden; /* Hidden by default */
@@ -138,8 +207,8 @@ section {
 }
 
 .input-group.error .login-input {
-  border-color: red;
-  box-shadow: 0 0 0.3rem rgba(255, 0, 0, 0.3);
+  border-color: var(--error-color);
+  box-shadow: 0 0 0.3rem var(--error-color);
 }
 
 /* Remember Me Checkbox */
@@ -157,7 +226,7 @@ section {
 
 /* Login Button */
 .login-button {
-  background-color: #4caf50;
+  background-color: var(--hover-color);
   color: white;
   padding: 0.75rem;
   border: none;
@@ -170,8 +239,8 @@ section {
 }
 
 .login-button:hover {
-  background-color: #45a045;
-  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+  background-color: var(--hover-color);
+  box-shadow: 0 5px 15px var(--focus-shadow);
 }
 
 /* Navbar Container */
@@ -418,8 +487,8 @@ section {
   max-width: 100%; /* Ensure it doesn't overflow horizontally */
   max-height: 300px; /* Set a maximum height to enable vertical scrolling */
   margin-top: 15px;
-  border: 1px solid #ddd; /* Optional: to define the boundary of the table */
-  border-radius: 8px; /* Optional: for smooth edges */
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .transaction-table {
@@ -776,30 +845,337 @@ section {
 }
 
 /* Dark Mode Styles (Optional, toggled via JavaScript) */
-body.dark-mode {
-  background-color: #121212;
-  color: #fff;
+body.dark-mode .remember-me {
+  color: var(--text-color);
 }
 
-body.dark-mode .navbar {
+body.dark-mode .login-button {
   background-color: #333;
+  color: var(--text-color);
 }
 
-body.dark-mode .navbar-logo h1,
-body.dark-mode .nav-item a,
-body.dark-mode .theme-toggle {
-  color: #fff;
+body.dark-mode .login-button:hover {
+  background-color: #444;
+}
+
+/* General Dark Mode Styles */
+body.dark-mode .navbar {
+  background-color: var(--navbar-bg-color);
+  color: var(--navbar-text-color);
+}
+
+body.dark-mode .navbar-logo h1 {
+  color: var(--navbar-text-color);
 }
 
 body.dark-mode .navbar-logo img {
-  background-color: #fff;
+  background-color: var(--navbar-text-color);
   border-radius: 5px;
-  padding: 1px;
 }
 
+body.dark-mode .sidebar-toggle i {
+  color: var(--hamburger-color);
+}
+
+body.dark-mode .sidebar {
+  background-color: var(--sidebar-bg-color);
+  color: var(--sidebar-text-color);
+  box-shadow: -2px 0 5px var(--sidebar-box-shadow);
+}
+
+body.dark-mode .sidebar-content {
+  color: var(--sidebar-text-color);
+}
+
+/* Sidebar Close Button */
+body.dark-mode .sidebar-close {
+  color: var(--sidebar-text-color);
+}
+
+/* Sidebar Action Buttons */
+body.dark-mode .action-btn {
+  background-color: var(--sidebar-bg-color);
+  color: var(--sidebar-text-color);
+  border: 1px solid var(--sidebar-text-color);
+}
+
+body.dark-mode .action-btn:hover {
+  background-color: var(--hover-color);
+  color: var(--navbar-text-color);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+}
+
+/* Theme Toggle Button */
+body.dark-mode .theme-toggle {
+  background-color: var(--theme-toggle-bg-color);
+  color: var(--theme-toggle-text-color);
+}
+
+body.dark-mode .theme-toggle:hover {
+  background-color: var(--hover-color);
+  color: var(--navbar-text-color);
+}
+
+/* Logout Button */
 body.dark-mode .logout-button {
-  background-color: #f44336;
+  background-color: var(--logout-button-bg-color);
+  color: var(--logout-button-text-color);
+}
+
+body.dark-mode .logout-button:hover {
+  background-color: var(--hover-color);
+  color: var(--navbar-text-color);
+}
+
+/* Dark Mode for Account Overview */
+body.dark-mode .account-overview {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4),
+    -5px -5px 20px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .account-overview h2,
+body.dark-mode .transactions-container h3 {
+  color: #e0e0e0;
+}
+
+body.dark-mode .greeting-message {
+  color: #76ff03;
+  background: linear-gradient(90deg, #76ff03, #26c6da);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode .balance-container {
+  color: #f0f0f0;
+}
+
+body.dark-mode .dynamic-balance {
+  color: #76ff03;
+}
+
+body.dark-mode .currency-switcher {
+  color: #f0f0f0;
+}
+
+body.dark-mode #currency-select {
+  background-color: #424242;
+  border-color: #4caf50;
+  color: #f0f0f0;
+}
+
+body.dark-mode #currency-select:hover {
+  border-color: #76ff03;
+}
+
+/* Neumorphic Card Dark Mode */
+body.dark-mode .neumorphic-card {
+  background-color: #333;
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3),
+    -8px -8px 20px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .neumorphic-card:hover {
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.4),
+    -10px -10px 25px rgba(255, 255, 255, 0.1);
+}
+
+/* Transactions Table Dark Mode */
+body.dark-mode .transaction-list-wrapper {
+  border-color: #424242;
+}
+
+body.dark-mode .transaction-table {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+}
+
+body.dark-mode .transaction-table th {
+  background-color: #424242;
+  color: #e0e0e0;
+  border-bottom: 2px solid #4caf50;
+}
+
+body.dark-mode .transaction-table tr:hover {
+  background-color: #333;
+}
+
+body.dark-mode .transaction-table td {
+  color: #e0e0e0;
+  border-bottom: 1px solid #444;
+}
+
+body.dark-mode .transaction-table td i {
+  color: #4caf50;
+}
+
+body.dark-mode .text-success {
+  color: #76ff03;
+}
+
+body.dark-mode .text-danger {
+  color: #f44336;
+}
+
+/* Dark Mode for Quick Action Buttons */
+body.dark-mode .action-btn1 {
+  background-color: #388e3c; /* Darker shade of green */
   color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .action-btn1:hover {
+  background-color: #2e7d32;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .danger-btn {
+  background-color: #d32f2f;
+}
+
+body.dark-mode .danger-btn:hover {
+  background-color: #b71c1c;
+}
+
+/* Dark Mode for Modals */
+body.dark-mode .modal-content {
+  background-color: #333;
+  color: #f0f0f0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .modal-content h3 {
+  color: #f0f0f0;
+}
+
+body.dark-mode .modal-content label {
+  color: #ccc;
+}
+
+body.dark-mode .modal-content input {
+  background-color: #424242;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+body.dark-mode .modal-content input:focus {
+  border-color: #76ff03;
+  box-shadow: 0 0 5px rgba(118, 255, 3, 0.4);
+}
+
+/* Modal Buttons in Dark Mode */
+body.dark-mode .modal-btn {
+  background-color: #388e3c;
+}
+
+body.dark-mode .modal-btn:hover {
+  background-color: #2e7d32;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .modal .danger-btn {
+  background-color: #d32f2f;
+}
+
+body.dark-mode .modal .danger-btn:hover {
+  background-color: #b71c1c;
+}
+
+/* Close Button in Dark Mode */
+body.dark-mode .close-btn {
+  color: #f0f0f0;
+}
+
+body.dark-mode .close-btn:hover {
+  color: #d32f2f;
+}
+
+/* Confirmation Text for Closing Account */
+body.dark-mode .modal-content p {
+  color: #ccc;
+}
+
+/* Dark Mode for Filter Container */
+body.dark-mode .filter-container {
+  background-color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .filter-container label {
+  color: #f0f0f0;
+}
+
+body.dark-mode .filter-container input,
+body.dark-mode .filter-container select {
+  background-color: #424242;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .filter-container input:focus,
+body.dark-mode .filter-container select:focus {
+  border-color: #76ff03;
+  box-shadow: 0 0 5px rgba(118, 255, 3, 0.4);
+}
+
+/* Dark Mode for Search Bar */
+body.dark-mode #search-bar {
+  background-color: #424242;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode #search-bar:focus {
+  border-color: #76ff03;
+  box-shadow: 0 0 5px rgba(118, 255, 3, 0.4);
+}
+
+/* Hover Effects in Dark Mode */
+body.dark-mode .filter-container input:hover,
+body.dark-mode .filter-container select:hover,
+body.dark-mode #search-bar:hover {
+  border-color: #76ff03;
+  background-color: #333;
+}
+
+/* Dark Mode Financial Summary Section */
+body.dark-mode .financial-summary {
+  background-color: #333;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2), 0 -8px 30px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .financial-summary h2 {
+  color: #f0f0f0;
+}
+
+/* Dark Mode for Summary Cards */
+body.dark-mode .summary-card {
+  background-color: #424242;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 -6px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .summary-card h3 {
+  color: #f0f0f0;
+}
+
+body.dark-mode .summary-card p {
+  color: #76ff03;
+}
+
+body.dark-mode .summary-card:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 -10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark Mode for Graphical Summary */
+body.dark-mode .graphical-summary {
+  background-color: #424242;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 -6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode for Financial Pie Chart */
+body.dark-mode #financial-pie-chart {
+  background-color: #333;
 }
 
 /* Media Queries */

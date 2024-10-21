@@ -235,8 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (document.body.classList.contains("dark-mode")) {
         localStorage.setItem("darkMode", "enabled");
+        darkModeToggle.textContent = "Light Mode";
       } else {
         localStorage.setItem("darkMode", "disabled");
+        darkModeToggle.textContent = "Dark Mode";
       }
     });
 
