@@ -178,17 +178,27 @@
           </div>
         </section>
 
-        <!-- Quick Action Buttons Section -->
-        <div class="quick-actions">
-          <button id="transfer-btn" class="action-btn1">
-            <i class="fas fa-exchange-alt"></i> Transfer Money
+        <!-- Floating Action Button Container -->
+        <div class="fab-container">
+          <button class="fab-main" id="fab">
+            <i class="fas fa-plus"></i>
           </button>
-          <button id="loan-btn" class="action-btn1">
-            <i class="fas fa-handshake"></i> Request Loan
-          </button>
-          <button id="close-account-btn" class="action-btn1 danger-btn">
-            <i class="fas fa-times-circle"></i> Close Account
-          </button>
+
+          <!-- Quick Access Buttons -->
+          <div class="fab-actions quick-actions">
+            <button id="transfer-btn" class="action-btn1">
+              <i class="fas fa-exchange-alt"></i>
+              <!-- <span class="fab-action-label">Transfer</span> -->
+            </button>
+            <button id="loan-btn" class="action-btn1">
+              <i class="fas fa-dollar-sign"></i>
+              <!-- <span class="fab-action-label">Loan Request</span> -->
+            </button>
+            <button id="close-account-btn" class="action-btn1 danger-btn">
+              <i class="fas fa-sign-out-alt"></i>
+              <!-- <span class="fab-action-label">Close Account</span> -->
+            </button>
+          </div>
         </div>
 
         <!-- Modals -->

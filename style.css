@@ -547,26 +547,70 @@ section {
 }
 
 /* Quick Action Buttons */
-.quick-actions {
-  margin-top: 20px;
+.fab-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.fab-main {
+  background-color: #4caf50;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
   display: flex;
-  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.fab-main:hover {
+  background-color: #45a045;
+  transform: rotate(45deg);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* FAB Actions Container (Hidden by Default) */
+.fab-actions {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
+  gap: 20px;
 }
 
 .action-btn1 {
   background-color: #4caf50;
   color: white;
-  padding: 12px 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  font-size: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0); /* Initial scale to create the "pop" effect */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
 }
 
 .action-btn1:hover {
   background-color: #45a045;
-  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+  transform: scale(1.1);
 }
 
 .danger-btn {
@@ -575,6 +619,36 @@ section {
 
 .danger-btn:hover {
   background-color: #d32f2f;
+}
+
+/* Active State for Expanding FAB Actions */
+.fab-active .fab-actions {
+  visibility: visible;
+  opacity: 1;
+}
+
+.fab-active .action-btn1 {
+  transform: scale(1);
+}
+
+/* Button Label Tooltip */
+.fab-action-label {
+  position: absolute;
+  right: 60px;
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(20px); /* Moved tooltip further away from button */
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.action-btn1:hover .fab-action-label {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Modals */
@@ -1006,10 +1080,6 @@ body.dark-mode .transaction-table td {
   border-bottom: 1px solid #444;
 }
 
-body.dark-mode .transaction-table td i {
-  color: #4caf50;
-}
-
 body.dark-mode .text-success {
   color: #76ff03;
 }
@@ -1178,6 +1248,78 @@ body.dark-mode #financial-pie-chart {
   background-color: #333;
 }
 
+/* Dark Mode FAB Container */
+body.dark-mode .fab-container {
+  z-index: 1000;
+}
+
+/* Dark Mode Main FAB Button */
+body.dark-mode .fab-main {
+  background-color: #388e3c;
+  color: white;
+  box-shadow: 0 8px 20px rgba(118, 255, 3, 0.4);
+}
+
+body.dark-mode .fab-main:hover {
+  background-color: #2e7d32;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Dark Mode FAB Actions */
+body.dark-mode .fab-actions {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Dark Mode Action Buttons */
+body.dark-mode .action-btn1 {
+  background-color: #388e3c;
+  color: white;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .action-btn1:hover {
+  background-color: #2e7d32;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark Mode Danger Button (Logout) */
+body.dark-mode .danger-btn {
+  background-color: #e53935;
+}
+
+body.dark-mode .danger-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Dark Mode for the Active State of FAB Actions */
+body.dark-mode .fab-active .fab-actions {
+  visibility: visible;
+  opacity: 1;
+}
+
+body.dark-mode .fab-active .action-btn1 {
+  transform: scale(1);
+}
+
+/* Dark Mode Tooltip */
+body.dark-mode .fab-action-label {
+  background-color: #444;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Tooltip hover effect */
+body.dark-mode .action-btn1:hover .fab-action-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Media Queries */
 
 /* Small Devices - Mobile Portrait (max-width: 576px) */
@@ -1336,6 +1478,27 @@ body.dark-mode #financial-pie-chart {
     width: 100%;
     height: auto;
   }
+
+  .fab-main {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .action-btn1 {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .fab-actions {
+    gap: 15px;
+  }
+
+  .fab-container {
+    bottom: 20px;
+    right: 20px;
+  }
 }
 
 /* Medium Devices - Tablets (min-width: 576px and max-width: 991px) */
@@ -1466,6 +1629,27 @@ body.dark-mode #financial-pie-chart {
 
   #financial-pie-chart {
     max-width: 100%;
+  }
+
+  .fab-main {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+
+  .action-btn1 {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .fab-actions {
+    gap: 18px;
+  }
+
+  .fab-container {
+    bottom: 25px;
+    right: 25px;
   }
 }
 
@@ -1610,5 +1794,26 @@ body.dark-mode #financial-pie-chart {
 
   #financial-pie-chart {
     max-width: 100%;
+  }
+
+  .fab-main {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .action-btn1 {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .fab-actions {
+    gap: 20px;
+  }
+
+  .fab-container {
+    bottom: 30px;
+    right: 30px;
   }
 }

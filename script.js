@@ -496,6 +496,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   displayHomePage("none");
 
+  const fab = document.getElementById("fab");
+  const fabContainer = document.querySelector(".fab-container");
+
+  // Toggle FAB actions on click
+  fab.addEventListener("click", () => {
+    fabContainer.classList.toggle("fab-active");
+  });
+
   // Form Validation
   loginForm.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form submission
