@@ -1597,6 +1597,21 @@ body.dark-mode .pulse-animation {
     bottom: 20px;
     right: 20px;
   }
+
+  .notification-icon {
+    margin-right: 20px;
+  }
+
+  .notification-icon i {
+    font-size: 20px;
+  }
+
+  .notification-count {
+    top: -5px;
+    right: -5px;
+    font-size: 0.65rem;
+    padding: 4px 6px;
+  }
 }
 
 /* Medium Devices - Tablets (min-width: 576px and max-width: 991px) */
@@ -1748,6 +1763,21 @@ body.dark-mode .pulse-animation {
   .fab-container {
     bottom: 25px;
     right: 25px;
+  }
+
+  .notification-icon {
+    margin-right: 40px;
+  }
+
+  .notification-icon i {
+    font-size: 22px;
+  }
+
+  .notification-count {
+    top: -6px;
+    right: -6px;
+    font-size: 0.7rem;
+    padding: 5px 7px;
   }
 }
 
@@ -1913,5 +1943,20 @@ body.dark-mode .pulse-animation {
   .fab-container {
     bottom: 30px;
     right: 30px;
+  }
+
+  .notification-icon {
+    margin-right: 80px;
+  }
+
+  .notification-icon i {
+    font-size: 24px;
+  }
+
+  .notification-count {
+    top: -8px;
+    right: -8px;
+    font-size: 0.75rem;
+    padding: 5px 8px;
   }
 }
