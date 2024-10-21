@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginContainer.style.display = "none";
     notificationContainer.style.display = "block";
     displayHomePage("block");
-    greetUser(currentAccount.owner);
+    greetUser(currentAccount.owner.split(" ")[0]);
     updateBalanceDisplay();
     renderFilteredTransactions();
     calculateFinancialSummary(currentAccount, selectedCurrency);
