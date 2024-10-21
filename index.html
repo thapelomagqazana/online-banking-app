@@ -26,6 +26,7 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <!-- Navigation Bar -->
@@ -257,30 +258,21 @@
 
           <div class="summary-cards">
             <!-- Deposits Card -->
-            <div class="summary-card" id="deposits-card">
-              <h3>Deposits</h3>
-              <p id="total-deposits">R0.00</p>
-              <button class="details-btn" id="deposits-details-btn">
-                View Details
-              </button>
+            <div class="summary-card neumorphic-card" id="deposits-card">
+              <h3>Total Deposits</h3>
+              <p id="total-deposits"></p>
             </div>
 
             <!-- Withdrawals Card -->
-            <div class="summary-card" id="withdrawals-card">
-              <h3>Withdrawals</h3>
-              <p id="total-withdrawals">R0.00</p>
-              <button class="details-btn" id="withdrawals-details-btn">
-                View Details
-              </button>
+            <div class="summary-card neumorphic-card" id="withdrawals-card">
+              <h3>Total Withdrawals</h3>
+              <p id="total-withdrawals"></p>
             </div>
 
             <!-- Interest Earned Card -->
-            <div class="summary-card" id="interest-card">
+            <div class="summary-card neumorphic-card" id="interest-card">
               <h3>Interest Earned</h3>
-              <p id="total-interest">R0.00</p>
-              <button class="details-btn" id="interest-details-btn">
-                View Details
-              </button>
+              <p id="total-interest"></p>
             </div>
           </div>
 
@@ -288,23 +280,6 @@
           <div class="graphical-summary">
             <canvas id="financial-pie-chart"></canvas>
           </div>
-
-          <!-- Recent Interest Breakdown -->
-          <div id="interest-breakdown" class="interest-breakdown">
-            <h3>Recent Interest Breakdown</h3>
-            <ul id="interest-payments-list">
-              <!-- Dynamic list of interest payments -->
-            </ul>
-          </div>
-        </section>
-
-        <section id="loans">
-          <h2>Loans Section</h2>
-          <p>Details about loans go here.</p>
-        </section>
-        <section id="support">
-          <h2>Support Section</h2>
-          <p>Details about support go here.</p>
         </section>
       </section>
     </main>

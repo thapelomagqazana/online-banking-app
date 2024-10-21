@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  let currentAccount;
   // Data
   const defaultAccounts = [
     {
@@ -83,17 +84,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // localStorage.clear();
 
-  // Persist login state (if logged in previously)
-  const persistLogin = localStorage.getItem("currentAccount");
-  if (persistLogin) {
-    currentAccount = JSON.parse(persistLogin);
+  // Handle login success
+  const loginSuccess = () => {
     loginContainer.style.display = "none";
     displayHomePage("block");
     greetUser(currentAccount.owner);
     updateBalanceDisplay();
-    renderTransactions(currentAccount.movements, selectedCurrency);
+    renderFilteredTransactions();
+    calculateFinancialSummary(currentAccount, selectedCurrency);
+    drawChart();
     updateSideBar();
-  }
+    localStorage.setItem("currentAccount", JSON.stringify(currentAccount));
+  };
 
   // Auto-fill username if 'Remember Me' was checked
   if (localStorage.getItem("rememberMe") === "true") {
@@ -329,19 +331,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const currencyCalculation = (balance, selectedCurrency) => {
+  const currencyCalculation = (amount, selectedCurrency) => {
     let currencySymbol;
     if (selectedCurrency === "USD") {
-      balance = balance / 18.5;
+      amount = amount / 18.5;
       currencySymbol = "$";
     } else if (selectedCurrency === "EUR") {
-      balance = balance / 20;
+      amount = amount / 20;
       currencySymbol = `€`;
     } else {
       currencySymbol = `R`;
     }
 
-    return `${currencySymbol} ${balance.toFixed(2)}`;
+    return `${currencySymbol} ${amount.toFixed(2)}`;
   };
 
   // Render transactions
@@ -381,7 +383,101 @@ document.addEventListener("DOMContentLoaded", () => {
   // Helper function to get today's date
   const getCurrentDate = () => new Date().toISOString().slice(0, 10);
 
-  let currentAccount;
+  const totalDepositsElement = document.getElementById("total-deposits");
+  const totalWithdrawalsElement = document.getElementById("total-withdrawals");
+  const totalInterestElement = document.getElementById("total-interest");
+
+  // Function to calculate financial summary
+  const calculateFinancialSummary = (account, selectedCurrency) => {
+    const totalDeposits = account.movements
+      .filter((movement) => {
+        return movement.amount > 0;
+      })
+      .reduce((acc, movement) => {
+        return acc + movement.amount;
+      }, 0);
+
+    const totalWithdrawals = account.movements
+      .filter((movement) => {
+        return movement.amount < 0;
+      })
+      .map((movement) => {
+        return Math.abs(movement.amount);
+      })
+      .reduce((acc, curr) => {
+        return acc + curr;
+      }, 0);
+
+    // Calculate interest earned based on deposits
+    const totalInterest = account.movements
+      .filter((movement) => {
+        return movement.amount > 0;
+      })
+      .map((movement) => {
+        return movement.amount * (account.interestRate / 100);
+      })
+      .reduce((acc, curr) => {
+        return acc + curr;
+      }, 0);
+
+    // Display results
+    totalDepositsElement.textContent = currencyCalculation(
+      totalDeposits,
+      selectedCurrency
+    );
+    totalWithdrawalsElement.textContent = currencyCalculation(
+      totalWithdrawals,
+      selectedCurrency
+    );
+    totalInterestElement.textContent = currencyCalculation(
+      totalInterest,
+      selectedCurrency
+    );
+  };
+
+  let financialChartInstance;
+
+  const drawChart = () => {
+    // If a chart already exists, destroy it before creating a new one
+    if (financialChartInstance) {
+      financialChartInstance.destroy();
+    }
+
+    const totalDeposits = parseFloat(
+      totalDepositsElement.textContent.replace(/[^\d.-]/g, "")
+    );
+    const totalWithdrawals = parseFloat(
+      totalWithdrawalsElement.textContent.replace(/[^\d.-]/g, "")
+    );
+    const totalInterest = parseFloat(
+      totalInterestElement.textContent.replace(/[^\d.-]/g, "")
+    );
+
+    const ctx = document.getElementById("financial-pie-chart").getContext("2d");
+
+    // Create the new chart instance and assign it to the global variable
+    financialChartInstance = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Deposits", "Withdrawals", "Interest Earned"],
+        datasets: [
+          {
+            data: [totalDeposits, totalWithdrawals, totalInterest],
+            backgroundColor: ["#4caf50", "#f44336", "#ffeb3b"],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    });
+  };
+
   let selectedCurrency = "ZAR";
   // Currency Switcher
   const currencySelect = document.getElementById("currency-select");
@@ -392,6 +488,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Re-render the transaction list
     renderFilteredTransactions();
+    calculateFinancialSummary(currentAccount, selectedCurrency);
+    drawChart();
   });
 
   displayHomePage("none");
@@ -436,16 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Login success
-    loginContainer.style.display = "none"; // Hide login form
-    updateSideBar(); // Update navbar after login
-    displayHomePage("block"); // Show homepage
-    greetUser(currentAccount.owner);
-    updateBalanceDisplay();
-    renderFilteredTransactions();
-
-    // Save login state to localStorage
-    localStorage.setItem("currentAccount", JSON.stringify(currentAccount));
+    loginSuccess();
   });
 
   const transferForm = document.getElementById("transfer-form");
@@ -484,7 +573,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       updateBalanceDisplay();
 
-      renderTransactions(currentAccount.movements, selectedCurrency);
+      renderFilteredTransactions();
+
+      calculateFinancialSummary(currentAccount, selectedCurrency);
+      drawChart();
     }
   });
 
@@ -513,7 +605,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       updateBalanceDisplay();
 
-      renderTransactions(currentAccount.movements, selectedCurrency);
+      renderFilteredTransactions();
+
+      calculateFinancialSummary(currentAccount, selectedCurrency);
+      drawChart();
     }
   });
 
@@ -549,4 +644,11 @@ document.addEventListener("DOMContentLoaded", () => {
       location.reload(); // Reload to login page
     }
   });
+
+  // Persist login state (if logged in previously)
+  const persistLogin = localStorage.getItem("currentAccount");
+  if (persistLogin) {
+    currentAccount = JSON.parse(persistLogin);
+    loginSuccess();
+  }
 });
