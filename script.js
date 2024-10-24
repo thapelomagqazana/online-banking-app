@@ -96,7 +96,18 @@ document.addEventListener("DOMContentLoaded", () => {
     calculateFinancialSummary(currentAccount, selectedCurrency);
     drawChart();
     updateSideBar();
+    // Start the initial countdown
+    resetTimer();
+    displayCurrentDate();
     localStorage.setItem("currentAccount", JSON.stringify(currentAccount));
+  };
+
+  // Function to log the user out
+  const logOutUser = () => {
+    alert("Session expired. You are being logged out.");
+    // Clear the current account and redirect to login page
+    localStorage.removeItem("currentAccount");
+    location.reload(); // Reload the page to log out and return to login screen
   };
 
   // Auto-fill username if 'Remember Me' was checked
@@ -249,14 +260,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("logout-btn").addEventListener("click", () => {
-      localStorage.removeItem("currentAccount");
-      location.reload(); // Reload to return to login page
+      logOutUser();
     });
   };
 
   const displayHomePage = (state) => {
     sectionHomePage.style.display = state;
+    document.getElementById("countdown-timer").style.display = state;
   };
+
+  // Function to get the current date in 'As of ...' format
+  const displayCurrentDate = () => {
+    const currentDate = new Date();
+
+    const day = `${currentDate.getDate()}`.padStart(2, 0);
+    const month = `${currentDate.getMonth()}`.padStart(2, 0);
+    const year = currentDate.getFullYear();
+    const hour = currentDate.getHours();
+    const min = currentDate.getMinutes();
+
+    const formattedDate = `${year}-${month}-${day}, ${hour}:${min}`;
+
+    document.getElementById(
+      "balance-date"
+    ).textContent = `As of ${formattedDate}`;
+  };
+
+  let countdownTime = 5 * 60; // 5 minutes in seconds
+  const timerElement = document.getElementById("timer");
+  let countdownInterval;
+
+  // Update the timer display (MM:SS)
+  const updateTimerDisplay = (timeLeft) => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `${String(minutes).padStart(2, "0")}:${String(
+      seconds
+    ).padStart(2, "0")}`;
+  };
+
+  // Start the countdown
+  const startCountdown = () => {
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      countdownTime--;
+      updateTimerDisplay(countdownTime);
+
+      if (countdownTime <= 0) {
+        clearInterval(countdownInterval);
+        logOutUser();
+      }
+    }, 1000);
+  };
+
+  // Reset the timer when there's user activity
+  const resetTimer = () => {
+    countdownTime = 5 * 60; // Reset to 5 minutes
+    updateTimerDisplay(countdownTime);
+    startCountdown();
+  };
+
+  // Listen for user activity (mouse movements, key presses, etc.)
+  const events = ["mousemove", "keydown", "mousedown", "touchstart"];
+  events.forEach((event) => {
+    document.addEventListener(event, resetTimer);
+  });
 
   // Toggle sidebar open/close
   sidebarToggle.addEventListener("click", () => {
@@ -670,11 +738,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (accountIndex !== -1) {
       accounts.splice(accountIndex, 1); // Remove account from array
       updateAccountsStorage(); // Update localStorage
-
-      // Logout and reset
-      localStorage.removeItem("currentAccount");
+      logOutUser();
       localStorage.clear();
-      location.reload(); // Reload to login page
     }
   });
 

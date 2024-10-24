@@ -281,6 +281,19 @@ section {
   gap: 15px;
 }
 
+.countdown-timer {
+  font-size: 1rem;
+  color: #f44336;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: none;
+}
+
+#timer {
+  font-weight: bold;
+}
+
 .notification-icon {
   position: relative;
   display: inline-block;
@@ -464,6 +477,10 @@ section {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05), 0 -8px 20px #ffffff;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
 .balance-display {
@@ -477,6 +494,13 @@ section {
   font-weight: 800;
   text-align: center;
   animation: fadeInUp 0.5s ease;
+}
+
+.balance-date {
+  font-size: 1rem;
+  color: #888;
+  font-style: italic;
+  margin-top: 10px;
 }
 
 @keyframes fadeInUp {

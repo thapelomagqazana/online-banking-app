@@ -38,6 +38,11 @@
           <h1>Imali X</h1>
         </div>
 
+        <!-- Countdown Timer Display -->
+        <div id="countdown-timer" class="countdown-timer">
+          Session expires in <span id="timer"></span>
+        </div>
+
         <div class="notification-icon">
           <i class="fas fa-bell"></i>
           <span class="notification-count">3</span>
@@ -108,9 +113,7 @@
         <!-- Account Overview Section -->
         <section id="account-overview" class="account-overview">
           <!-- Dynamic Greeting with Time of Day -->
-          <h2 id="greeting-message" class="greeting-message">
-            Good Morning, User
-          </h2>
+          <h2 id="greeting-message" class="greeting-message"></h2>
 
           <!-- Balance Display -->
           <div class="balance-container neumorphic-card">
@@ -118,10 +121,12 @@
               <h1 class="balance">
                 <i class="fas fa-wallet"></i>
                 Balance:
-                <span id="balance-amount" class="dynamic-balance"
-                  >R25,000.00</span
-                >
+                <span id="balance-amount" class="dynamic-balance"></span>
               </h1>
+
+              <p id="balance-date" class="balance-date"></p>
+              <!-- Date Display -->
+
               <!-- Currency Switcher Dropdown -->
               <div class="currency-switcher">
                 <label for="currency-select">Currency:</label>
