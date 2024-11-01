@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { amount: -130, date: "2024-10-06" },
         { amount: 70, date: "2024-10-07" },
         { amount: 1300, date: "2024-10-08" },
+        { amount: 1000, date: "2022-10-08" }
       ],
       balance: 100000,
       interestRate: 1.2, // %
@@ -418,6 +419,38 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${currencySymbol} ${amount.toFixed(2)}`;
   };
 
+  // Function to calculate days passed and return formatted string
+  const daysPassed = (dateString) => {
+    const transactionDate = new Date(dateString);
+    const currentDate = new Date();
+
+    // Ensure the date is valid and not in the future
+    if (isNaN(transactionDate) || transactionDate > currentDate) {
+      return "Invalid Date";
+    }
+
+
+    // Calculate the difference in time and convert it to days
+    const timeDiff = currentDate - transactionDate;
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    // Return based on the difference in days, weeks, months, or years
+    if (daysDiff === 0) return "Today";
+    else if (daysDiff === 1) return "Yesterday";
+    else if (daysDiff < 7) return `${daysDiff} days ago`;
+    else if (daysDiff < 30){
+      const weeksDiff = Math.floor(daysDiff / 7);
+      return `${weeksDiff} week${weeksDiff > 1 ? "s" : ""} ago`;
+    }
+    else if (daysDiff < 365){
+      const monthsDiff = Math.floor(daysDiff / 30);
+      return `${monthsDiff} month${monthsDiff > 1? "s" : ""} ago`;
+    }
+    else {
+      return dateString;
+    }
+  };
+
   // Render transactions
   const renderTransactions = (transactions, selectedCurrency) => {
     const transactionsList = document.getElementById("transaction-list");
@@ -434,9 +467,13 @@ document.addEventListener("DOMContentLoaded", () => {
         type = "Withdrawal";
         icon = "fa-arrow-up text-danger";
       }
+
+      // Calculate and format days passed for transaction date
+      const daysPassedText = daysPassed(transaction.date);
+
       const transactionDetails = `
         <tr>
-            <td>${transaction.date}</td>
+            <td>${daysPassedText}</td>
             <td>
               <i class="fas ${icon}"></i>
               ${type}
