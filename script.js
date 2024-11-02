@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   let currentAccount;
+  let selectedCurrency = "ZAR"; 
   // Data
   const defaultAccounts = [
     {
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       balance: 100000,
       interestRate: 1.2, // %
       pin: 1111,
+      locale: "en-ZA",
     },
     {
       owner: "Jessica Davis",
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       balance: 100000,
       interestRate: 1.5,
       pin: 2222,
+      locale: "af-ZA",
     },
     {
       owner: "Steven Thomas Williams",
@@ -50,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       balance: 100000,
       interestRate: 0.7,
       pin: 3333,
+      locale: "xh-ZA",
     },
     {
       owner: "Sarah Smith",
@@ -63,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
       balance: 100000,
       interestRate: 1,
       pin: 4444,
+      locale: "zu-ZA",
     },
   ];
 
@@ -85,6 +90,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const notificationContainer = document.querySelector(".notification-icon");
 
   notificationContainer.style.display = "none";
+
+  // Currency formatting function
+  const formatCurrency = (amount, currency, locale) => {
+    return new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency,
+    }).format(amount);
+  };
 
   // Handle login success
   const loginSuccess = () => {
@@ -272,19 +285,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to get the current date in 'As of ...' format
   const displayCurrentDate = () => {
+    // Create current date and time
     const currentDate = new Date();
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
 
-    const day = `${currentDate.getDate()}`.padStart(2, 0);
-    const month = `${currentDate.getMonth()}`.padStart(2, 0);
-    const year = currentDate.getFullYear();
-    const hour = currentDate.getHours();
-    const min = currentDate.getMinutes();
-
-    const formattedDate = `${year}-${month}-${day}, ${hour}:${min}`;
 
     document.getElementById(
       "balance-date"
-    ).textContent = `As of ${formattedDate}`;
+    ).textContent = `As of ${new Intl.DateTimeFormat(currentAccount.locale, options).format(currentDate)}`;
   };
 
   let countdownTime = 5 * 60; // 5 minutes in seconds
@@ -405,18 +419,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const currencyCalculation = (amount, selectedCurrency) => {
-    let currencySymbol;
     if (selectedCurrency === "USD") {
       amount = amount / 18.5;
-      currencySymbol = "$";
     } else if (selectedCurrency === "EUR") {
       amount = amount / 20;
-      currencySymbol = `€`;
-    } else {
-      currencySymbol = `R`;
     }
 
-    return `${currencySymbol} ${amount.toFixed(2)}`;
+    return formatCurrency(amount, selectedCurrency, currentAccount.locale);
   };
 
   // Function to calculate days passed and return formatted string
@@ -441,10 +450,6 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (daysDiff < 30){
       const weeksDiff = Math.floor(daysDiff / 7);
       return `${weeksDiff} week${weeksDiff > 1 ? "s" : ""} ago`;
-    }
-    else if (daysDiff < 365){
-      const monthsDiff = Math.floor(daysDiff / 30);
-      return `${monthsDiff} month${monthsDiff > 1? "s" : ""} ago`;
     }
     else {
       return dateString;
@@ -606,7 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000); // Pulse for 5 seconds
   };
 
-  let selectedCurrency = "ZAR";
+
   // Currency Switcher
   const currencySelect = document.getElementById("currency-select");
 
