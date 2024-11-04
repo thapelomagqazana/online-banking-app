@@ -737,21 +737,22 @@ document.addEventListener("DOMContentLoaded", () => {
       showError(loanForm, "Invalid amount", true);
       return;
     } else {
-      currentAccount.balance += loanAmount;
-      currentAccount.movements.push({
-        amount: loanAmount,
-        date: getCurrentDate(),
-      });
-
       closeModal("loan-modal");
+      setTimeout(() => {
+        currentAccount.balance += loanAmount;
+        currentAccount.movements.push({
+          amount: loanAmount,
+          date: getCurrentDate(),
+        });
 
-      updateBalanceDisplay();
-      triggerNotification();
+        updateBalanceDisplay();
+        triggerNotification();
 
-      renderFilteredTransactions();
+        renderFilteredTransactions();
 
-      calculateFinancialSummary(currentAccount, selectedCurrency);
-      drawChart();
+        calculateFinancialSummary(currentAccount, selectedCurrency);
+        drawChart();
+      }, 3000);
     }
   });
 
